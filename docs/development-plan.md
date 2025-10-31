@@ -1,5 +1,13 @@
 # 极简高级感圆角清新风小游戏平台开发计划
 
+## 0. 计划评估总结
+- **总体可行性**：原计划的功能范围与 5.5 周的节奏匹配，MVP 聚焦合理。主要风险在于以 SPA 方式构建会带来不必要的首屏体积与性能开销。
+- **关键优化项**：
+  1. 改用 **Astro + TypeScript + React Island** 的静态优先架构，同时保留渐进增强能力，可显著降低首屏负载并提升 Lighthouse 指标。
+  2. 明确样式体系（Tailwind CSS + 设计 Token）与内容来源（Astro Content Collections + games.json），减少分歧。
+  3. 补充质量保障（Lint、格式化、单元测试、可访问性检查）与发布验收清单，降低上线风险。
+- **主要关注点**：内容素材准备（封面、试玩链接）与小游戏的版权授权需在阶段 3 前落实；如需后续引入多语言或 CMS，需在阶段 2 预留接口和数据结构。
+
 ## 1. 项目概述
 - **项目名称（暂定）**：Luna Playroom
 - **目标**：打造一个以极简、高级感、圆角、清新视觉为核心的开源小游戏聚合平台。
@@ -9,30 +17,31 @@
 - **目标用户**：喜欢轻量休闲游戏、注重界面审美的普通玩家。
 - **价值主张**：在不牺牲性能的前提下呈现高级感与舒适体验，让用户轻松发现有趣小游戏。
 - **成功指标**：
-  - 首次上线提供 3-5 款小游戏。
-  - 首页加载时间 < 3 秒（桌面端）。
-  - GitHub star/star 上升趋势与用户反馈数量。
+  - 首次上线提供 3-5 款小游戏，90% 以上具备封面图和玩法说明。
+  - 首页 Largest Contentful Paint < 2.0 秒（桌面端）、< 3.0 秒（移动端）。
+  - GitHub Star/Fork 呈正向增长，首月收集 ≥ 10 条用户反馈（Issue/Discussions）。
+  - 用户停留时间 ≥ 2 分钟，跳出率 < 60%（依赖后续接入统计）。
 
 ## 3. 功能规划
 
 ### 3.1 MVP 范围
 1. **首页**：
    - 极简导航（Logo + 首页 + 关于）。
-   - 小游戏卡片网格展示（缩略图、名称、短描述、标签和进入按钮）。
-   - 响应式布局，适配桌面与移动端。
+   - 小游戏卡片网格展示（缩略图、名称、短描述、标签、进入按钮、来源标识）。
+   - 响应式布局，适配桌面与移动端（≤ 2 列缩略布局时展示精简信息）。
 2. **游戏详情/播放页**：
-   - 游戏简介、标签、作者、玩法说明。
-   - 通过 iframe 内嵌或新标签页跳转加载游戏。
+   - 游戏简介、标签、作者、玩法说明、来源链接。
+   - 通过 iframe 内嵌或新标签页跳转加载游戏，并针对 iframe 使用懒加载与安全属性。
 3. **关于页 / 底部信息**：
    - 项目理念、开源声明、贡献指南链接。
    - Footer 显示 GitHub 仓库链接与版本信息。
 4. **基础设施**：
-   - 统一主题样式（CSS Variables 管理色彩、圆角、阴影）。
-   - 首次部署至 GitHub Pages。
-   - README + 开发/部署说明。
+   - 统一主题样式（设计 Token 管理色彩、圆角、阴影）。
+   - CI/CD、GitHub Pages 首次部署。
+   - README + 开发/部署说明，贡献指南草稿。
 
 ### 3.2 后续迭代功能
-- 分类/标签筛选、搜索能力。
+- 分类/标签筛选、关键词搜索。
 - 本地收藏/点赞（LocalStorage 实现）。
 - 游戏推荐区（基于标签或最新上线排序）。
 - 多语言支持（中英文）。
@@ -58,74 +67,107 @@
 ### 4.4 UI 语言
 - 统一圆角变量：`--radius-lg: 24px; --radius-md: 16px; --radius-sm: 10px;`。
 - 阴影示例：`box-shadow: 0 18px 48px rgba(15, 23, 42, 0.08);`。
+- Tailwind 中通过 `theme.extend` 映射颜色与阴影 Token，确保原子类与设计规范一致。
 - 按钮与卡片采用柔和渐变、玻璃拟态或淡淡的描边。
 
 ## 5. 技术选型
 
-### 5.1 前端框架
-- **首选**：React + Vite（组件化、生态成熟、支持快速构建）。
-- **备选**：Astro（适合内容驱动型站点，静态输出更轻量）。
-- **极简方案**：原生 ES Modules + 轻量组件封装。
+### 5.1 应用框架与语言
+- **首选：Astro + TypeScript + React Islands**
+  - 以静态输出为主，首屏零 JS，保证 GitHub Pages 的加载性能。
+  - 支持在需要的组件中引入 React，未来可渐进增强（如收藏、搜索）。
+  - 内建文件路由与内容集合管理，降低文档型站点搭建成本。
+- **备选：Next.js 静态导出模式**（若后续需要 SSR 或边缘函数，可平滑迁移）。
+- **极简方案**：原生 ES Modules + 轻量模版，适用于去除一切框架的超轻量版本。
 
-### 5.2 样式与组件
-- CSS Modules / Tailwind CSS / styled-components（三选一，根据团队习惯）。
-- 使用 CSS Variables 管理主题。
-- 图标可选 Heroicons、Feather Icons 等简洁线性图标库。
+### 5.2 样式与设计体系
+- **Tailwind CSS + 自定义设计 Token**：
+  - 在 `tailwind.config.js` 中映射圆角、颜色、阴影，结合 `@apply` 实现组件化样式。
+  - 使用 CSS Variables 作为主题底层，实现未来的主题切换扩展。
+- 组件库以自研为主，插入简单的 UI 状态（Loading、Badge、Tag）。必要时可引入 Headless UI 解决可访问性细节。
 
-### 5.3 内容管理
-- 初期：`games.json` 维护小游戏元数据（名称、描述、标签、封面、链接、来源）。
-- 中期：引入 Headless CMS（如 Netlify CMS、Contentful）或 GitHub Issues 驱动数据。
+### 5.3 内容与数据管理
+- MVP 阶段：
+  - `src/content/games/` 使用 Astro Content Collections（Markdown/MDX + 前置数据）定义小游戏条目，自动生成类型声明。
+  - 额外维护 `games.json`（或轻量脚本）供第三方使用和搜索索引。
+- 后续阶段：
+  - 接入 Headless CMS（Netlify CMS / Contentful）或 GitHub Issues 驱动数据。
+  - 为多语言和分类扩展预留字段（`locale`、`categories`、`sourceLicense`）。
 
-### 5.4 部署
-- GitHub Pages + GitHub Actions CI/CD。
-- Actions 流程：安装依赖 → 构建 → 将 `dist/` 发布到 `gh-pages` 分支。
+### 5.4 工程与质量保障
+- 包管理：pnpm。
+- 代码规范：ESLint（eslint-config-astro + React 插件）+ Prettier + Stylelint（可选）。
+- 类型检查：TypeScript 严格模式。
+- 测试：Vitest 做单元测试，Playwright 做关键流程回归（首页加载、游戏卡片跳转）。
+- 可访问性：借助 `@axe-core/playwright` 或手动审核关键组件（导航、卡片、按钮）。
+
+### 5.5 部署与监控
+- GitHub Actions：pnpm install → Astro build → 部署至 `gh-pages` 分支。
+- 开启 GitHub Pages。必要时通过 Cloudflare Pages 作为备选。
+- 集成简单的 404 页面与站点健康检查。
+- 后续可接入 Umami/Ackee 统计，监控访问、跳出率与推荐效果。
 
 ## 6. 信息架构与数据流
-- **数据结构**：
+- **页面结构**：
+  - `/`：首页卡片列表 + 推荐板块。
+  - `/games/[slug]`：详情页加载对应内容集合，支持面包屑导航。
+  - `/about`：关于与贡献说明。
+- **数据结构示意**：
   ```json
   {
     "id": "game-id",
+    "slug": "game-id",
     "name": "Game Name",
     "description": "Short intro",
     "tags": ["Puzzle", "Relax"],
-    "thumbnail": "assets/thumbnails/game-id.png",
+    "thumbnail": "/assets/thumbnails/game-id.png",
     "sourceType": "iframe | link | local",
     "playUrl": "https://...",
     "author": "...",
-    "publishDate": "2024-01-01"
+    "publishDate": "2024-01-01",
+    "duration": "short | medium | long",
+    "locale": ["zh-CN"],
+    "sourceLicense": "MIT"
   }
   ```
-- 前端读取 JSON 并渲染卡片；可使用懒加载优化图片与 iframe。
+- 利用 Astro 内容集合提供的类型校验保障数据一致性；前端读取集合数据生成卡片列表，使用 Intersection Observer 做懒加载。
 
 ## 7. 开发阶段计划（预估 5.5 周）
 
 | 阶段 | 时间 | 目标 | 交付物 |
 | --- | --- | --- | --- |
-| 阶段 1：需求&设计 | 第 1 周 | 明确 MVP 范围，完成线框 & 高保真视觉 | 设计稿、UI 规范、站点地图 |
-| 阶段 2：技术基建 | 第 2 周 | 初始化项目、配置路由与主题、接入 CI/CD | 项目基础框架、GitHub Actions 工作流 |
-| 阶段 3：核心功能 | 第 3-4 周 | 实现首页、详情页、响应式布局，接入 JSON 数据 | 功能完整的 MVP、初版样式 |
-| 阶段 4：内容&优化 | 第 5 周 | 上线 3-5 款小游戏、性能与交互优化 | 填充内容、图片资源、性能报告 |
-| 阶段 5：测试&发布 | 第 5.5 周 | 兼容性测试、Bug 修复、首发部署 | GitHub Pages 上线、发布说明 |
+| 阶段 1：需求 & 设计 | 第 1 周 | 明确 MVP、完成信息架构、线框与视觉规范 | 低保真线框、高保真设计、设计 Token、站点地图 |
+| 阶段 2：技术基建 | 第 2 周 | 初始化 Astro + pnpm 项目、接入 Tailwind、配置 CI/CD 与基本测试框架 | 项目脚手架、CI 流程、Lint/Prettier、基本页面骨架 |
+| 阶段 3：核心功能 | 第 3-4 周 | 实现首页卡片、详情页、响应式与懒加载、接入内容集合数据 | 功能完整的 MVP、首批游戏数据、可访问性初步检查 |
+| 阶段 4：内容 & 优化 | 第 5 周 | 上线 3-5 款小游戏、性能与交互优化、准备统计方案 | 填充内容、图片资源、性能报告、统计接入草案 |
+| 阶段 5：测试 & 发布 | 第 5.5 周 | 兼容性测试、Bug 修复、首发部署、编写发布说明 | GitHub Pages 上线、发布日志、测试报告 |
 
 ## 8. 项目管理与协作
 - 使用 GitHub Projects / Issues 管理需求与任务，按照功能拆分 Issue，与 PR 绑定。
-- 设立 README（项目简介、技术栈、开发指南、部署说明）。
-- 提供 CONTRIBUTING.md 与 CODE_OF_CONDUCT.md，鼓励开源协作。
+- 设立 README（项目简介、技术栈、开发指南、部署说明），完善 CONTRIBUTING.md 与 CODE_OF_CONDUCT.md。
 - 建议启用 GitHub Discussions 作为用户与贡献者的交流平台。
+- 发布前执行 Checklist：CI 通过、核心 Lighthouse 分数 ≥ 90、手动验收关键路径。
 
 ## 9. 部署策略（GitHub Pages）
 1. 主分支 `main` 存放源代码。
-2. GitHub Actions（或 `npm run deploy`）在构建后将 `dist` 发布到 `gh-pages` 分支。
+2. GitHub Actions（或 `pnpm run deploy`）在构建后将 `dist` 发布到 `gh-pages` 分支。
 3. 在仓库 Settings 中启用 Pages，选择 `gh-pages` 分支根目录。
-4. 利用自定义域名时，配置 `CNAME` 文件并在 DNS 添加记录。
+4. 使用自定义域名时，配置 `CNAME` 文件并在 DNS 添加记录。
+5. 每次发布后记录版本号与主要更新内容，便于回溯。
 
 ## 10. 未来拓展方向
 - 引入后台统计（Umami/Ackee）分析热门游戏。
-- 增设“今日推荐”“排行榜”等动态模块。
+- 增设“今日推荐”“排行榜”等动态模块，结合标签权重或用户行为数据排序。
 - 支持主题切换（浅色/深色），但保持极简美感。
-- 提供小游戏投稿通道，建立审核机制。
+- 提供小游戏投稿通道，建立审核机制与版权校验流程。
 - 考虑合作开发自制小游戏，增强平台差异化。
+
+## 11. 风险与应对
+- **内容版权**：需确认小游戏的授权或开源协议，收录前完成核对。
+- **外部资源稳定性**：对于 iframe/外链小游戏，增加可用性监控与失效提醒。
+- **性能波动**：定期跑 Lighthouse/Playwright，若问题集中于第三方游戏，可增加降级方案（加载提示、备用链接）。
+- **人力与时间**：若设计或素材准备延迟，可优先交付主页 + 2 款示例游戏，其他内容以增量方式补齐。
 
 ---
 
-该计划旨在确保平台在短期内快速落地 MVP，并保留足够空间支持后续功能扩展与视觉风格迭代。
+该优化版计划确保平台以静态优先架构在短期内快速落地 MVP，同时在设计体系、工程质量与内容扩展上预留充分空间，支撑后续功能迭代与视觉风格演进。
