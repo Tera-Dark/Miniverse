@@ -1,0 +1,28 @@
+# Node / Front-end build artifacts
+node_modules/
+.dist/
+dist/
+.tmp/
+tmp/
+
+# Dependency caches
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Build outputs
+coverage/
+*.tsbuildinfo
