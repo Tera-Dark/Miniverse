@@ -1,0 +1,32 @@
+.sample-game {
+  display: grid;
+  gap: 0.75rem;
+  text-align: center;
+  padding: clamp(1.4rem, 2vw, 2rem);
+}
+
+.sample-game h3 {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.sample-game p {
+  color: var(--color-muted);
+  margin: 0 auto;
+  max-width: 42ch;
+}
+
+.sample-game__bubble {
+  --pulse-color: var(--color-accent);
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 40%;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.7), transparent 70%),
+    var(--pulse-color);
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.35), 0 22px 35px -28px var(--color-shadow);
+  font-size: 2.4rem;
+  transition: background var(--transition-base);
+}
