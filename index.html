@@ -1,93 +1,16 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
+<!doctype html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>舒尔特方格 | Luna Playroom</title>
+    <title>Miniverse</title>
     <meta
       name="description"
-      content="Luna Playroom 的首款小游戏 —— 舒尔特方格。选择难度，按照顺序点击数字，训练专注力与反应速度。"
+      content="Miniverse is a playful collection of tiny experiments and games."
     />
-    <link rel="stylesheet" href="./src/styles/main.css" />
   </head>
   <body>
-    <div class="page">
-      <header class="page__header">
-        <div>
-          <p class="page__eyebrow">Luna Playroom · Game 01</p>
-          <h1 class="page__title">舒尔特方格</h1>
-          <p class="page__subtitle">
-            从舒适的视觉风格出发，挑战你的专注力。选择一个难度等级，按照顺序点击网格中的数字，看看你能多快完成。
-          </p>
-        </div>
-        <div class="page__actions">
-          <button id="restart-button" class="button button--secondary" type="button">
-            重新开始当前难度
-          </button>
-        </div>
-      </header>
-
-      <main class="layout" aria-labelledby="game-area-heading">
-        <section class="panel panel--control" aria-label="游戏设置">
-          <h2 class="panel__title">选择难度</h2>
-          <div class="difficulty-group" role="group" aria-label="舒尔特方格难度">
-            <button class="difficulty-button is-active" type="button" data-difficulty="simple">
-              简单
-              <span class="difficulty-button__meta">3 × 3</span>
-            </button>
-            <button class="difficulty-button" type="button" data-difficulty="normal">
-              普通
-              <span class="difficulty-button__meta">4 × 4</span>
-            </button>
-            <button class="difficulty-button" type="button" data-difficulty="hard">
-              困难
-              <span class="difficulty-button__meta">5 × 5</span>
-            </button>
-            <button class="difficulty-button" type="button" data-difficulty="challenge">
-              挑战
-              <span class="difficulty-button__meta">6 × 6</span>
-            </button>
-            <button class="difficulty-button" type="button" data-difficulty="extreme">
-              极限
-              <span class="difficulty-button__meta">7 × 7</span>
-            </button>
-          </div>
-
-          <div class="status">
-            <div class="status__item">
-              <span class="status__label">目标数字</span>
-              <span class="status__value" id="next-number">1</span>
-            </div>
-            <div class="status__item">
-              <span class="status__label">计时</span>
-              <span class="status__value" id="timer">00:00.0</span>
-            </div>
-          </div>
-
-          <div class="tips" id="tips">
-            <p>
-              温馨提示：每次开始游戏，数字都会重新排列并应用柔和的色彩和字体。点击错误不会扣分，但会提示你留意顺序。
-            </p>
-          </div>
-        </section>
-
-        <section class="panel panel--game" aria-labelledby="game-area-heading">
-          <div class="panel__header">
-            <h2 id="game-area-heading" class="panel__title">游戏区域</h2>
-            <p class="panel__subtitle">点击数字 1 开始，按照顺序完成所有数字即可通关。</p>
-          </div>
-          <div id="grid" class="grid" role="grid" aria-live="polite" aria-label="舒尔特方格"></div>
-          <div id="result" class="result" role="status" aria-live="polite"></div>
-        </section>
-      </main>
-
-      <footer class="page__footer">
-        <p>Luna Playroom · 开源小游戏合集。首款上线：舒尔特方格。</p>
-        <p class="page__footer-note">下一步计划：引入更多小游戏与进度挑战，敬请期待。</p>
-      </footer>
-    </div>
-
-    <script type="module" src="./src/scripts/schulte-grid.js"></script>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
