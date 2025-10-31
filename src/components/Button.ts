@@ -53,7 +53,11 @@ export const createButton = (options: ButtonOptions): ButtonElement => {
   }
 
   if (onClick) {
-    element.addEventListener('click', onClick);
+    const handleClick: EventListener = (event) => {
+      onClick(event as MouseEvent);
+    };
+
+    element.addEventListener('click', handleClick);
   }
 
   return element;
