@@ -45,7 +45,7 @@ export const createHeader = (options: HeaderOptions): HeaderInstance => {
   const branding = document.createElement('a');
   branding.className = 'app-header__title';
   branding.href = '#/';
-  branding.textContent = 'Miniverse';
+  branding.textContent = '迷你宇宙';
 
   const nav = document.createElement('nav');
   nav.className = 'app-nav';
