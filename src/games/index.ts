@@ -6,6 +6,13 @@ export interface GameDefinition extends GameMeta {
 
 export const gamesRegistry: GameDefinition[] = [
   {
+    id: 'cancellation-task',
+    title: '取消任务：图形搜索',
+    description: '在彩色图形矩阵中找出所有符合规则的目标，训练视觉搜索与抑制干扰能力。',
+    accentColor: '#f97316',
+    loader: () => import('./cancellation-task').then((module) => module.default)
+  },
+  {
     id: 'schulte-table',
     title: '舒尔特方格训练',
     description: '通过不同难度的舒尔特方格锻炼专注力与视线速度。',
