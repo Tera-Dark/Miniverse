@@ -202,13 +202,14 @@ const schulteGame: GameModule = (() => {
   };
 
   const buildBoard = (): void => {
-    if (!board) {
+    const boardElement = board;
+    if (!boardElement) {
       return;
     }
 
-    board.innerHTML = '';
-    board.style.setProperty('--grid-size', currentDifficulty.size.toString());
-    board.setAttribute('data-size', currentDifficulty.size.toString());
+    boardElement.innerHTML = '';
+    boardElement.style.setProperty('--grid-size', currentDifficulty.size.toString());
+    boardElement.setAttribute('data-size', currentDifficulty.size.toString());
 
     const numbers = shuffleNumbers(currentDifficulty.size);
 
@@ -229,7 +230,7 @@ const schulteGame: GameModule = (() => {
       }
 
       cell.addEventListener('click', () => handleCellClick(value, cell));
-      board.appendChild(cell);
+      boardElement.appendChild(cell);
     });
   };
 
