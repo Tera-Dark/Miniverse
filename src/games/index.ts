@@ -6,11 +6,11 @@ export interface GameDefinition extends GameMeta {
 
 export const gamesRegistry: GameDefinition[] = [
   {
-    id: 'sample',
-    title: 'Aurora Drift (Sample)',
-    description: 'A playful stub that demonstrates how Miniverse games mount and unmount.',
-    accentColor: '#c084fc',
-    loader: () => import('./sample').then((module) => module.default)
+    id: 'schulte-table',
+    title: '舒尔特方格训练',
+    description: '通过不同难度的舒尔特方格锻炼专注力与视线速度。',
+    accentColor: '#38bdf8',
+    loader: () => import('./schulte-table').then((module) => module.default)
   }
 ];
 

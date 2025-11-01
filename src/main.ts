@@ -114,8 +114,8 @@ const initializeShell = () => {
 
   const header = createHeader({
     links: [
-      { label: 'Home', path: '/' },
-      { label: 'Games', path: '/games' }
+      { label: '首页', path: '/' },
+      { label: '小游戏', path: '/games' }
     ],
     themeToggle: themeToggle.element
   });
@@ -144,21 +144,21 @@ const renderHome = (target: HTMLElement): (() => void) => {
 
   const eyebrow = document.createElement('span');
   eyebrow.className = 'page-intro__eyebrow';
-  eyebrow.textContent = 'Welcome to Miniverse';
+  eyebrow.textContent = '欢迎来到迷你宇宙';
 
   const heading = document.createElement('h1');
   heading.className = 'page-intro__title';
-  heading.textContent = 'Tiny, dreamy games with rounded edges';
+  heading.textContent = '轻盈梦幻的圆角小游戏世界';
 
   const description = document.createElement('p');
   description.className = 'page-intro__text';
   description.textContent =
-    'A home for experiments, prototypes, and playful ideas. Each world is lightweight, fast to load, and crafted for calm moments.';
+    '这里收纳实验性的灵感原型与趣味小游戏，每个世界都轻盈、即刻加载，陪你享受片刻的专注。';
 
   const actions = document.createElement('div');
   actions.appendChild(
     createButton({
-      label: 'Browse games',
+      label: '浏览小游戏',
       href: '#/games',
       trailingIcon: '→'
     })
@@ -172,25 +172,25 @@ const renderHome = (target: HTMLElement): (() => void) => {
   const highlightsHeading = document.createElement('h2');
   highlightsHeading.id = 'highlights-heading';
   highlightsHeading.className = 'section-title';
-  highlightsHeading.textContent = 'Why Miniverse?';
+  highlightsHeading.textContent = '为什么选择迷你宇宙？';
 
   const highlightsCopy = document.createElement('p');
   highlightsCopy.className = 'lead';
   highlightsCopy.textContent =
-    'A gentle colour palette, rounded surfaces, and modular building blocks keep every page cohesive. Games mount instantly and clean up when you leave.';
+    '柔和的配色、圆润的界面与模块化组件让每一页都保持统一质感，小游戏加载迅速，离开时也能干净收尾。';
 
   const highlights = [
     {
-      title: 'Rounded minimalism',
-      description: 'Soft edges, calm gradients, and pastel glow keep focus on play.'
+      title: '圆润的极简设计',
+      description: '柔和的边角、舒缓的渐变与淡雅的光晕，让注意力回归玩法本身。'
     },
     {
-      title: 'Pluggable games',
-      description: 'Each experience implements a tiny API: init, destroy, and metadata.'
+      title: '模块化小游戏',
+      description: '每个体验都遵循统一的 init / destroy / metadata 接口，随取随用。'
     },
     {
-      title: 'Pages-ready builds',
-      description: 'Vite-powered bundles deploy cleanly to GitHub Pages with zero hassles.'
+      title: '即刻部署的构建',
+      description: '基于 Vite 的构建可无缝发布到 GitHub Pages，零配置上手。'
     }
   ];
 
@@ -216,7 +216,7 @@ const renderHome = (target: HTMLElement): (() => void) => {
   const previewHeading = document.createElement('h2');
   previewHeading.id = 'preview-heading';
   previewHeading.className = 'section-title';
-  previewHeading.textContent = 'Featured world';
+  previewHeading.textContent = '精选体验';
 
   const previewGrid = document.createElement('div');
   previewGrid.className = 'cards-grid';
@@ -230,7 +230,7 @@ const renderHome = (target: HTMLElement): (() => void) => {
       accentColor: first.accentColor,
       footerActions: [
         createButton({
-          label: 'Launch sample',
+          label: '开始体验',
           href: `#/games/${first.id}`,
           variant: 'primary',
           trailingIcon: '↗'
@@ -257,11 +257,11 @@ const renderGamesList = (target: HTMLElement): (() => void) => {
 
   const heading = document.createElement('h1');
   heading.className = 'section-title';
-  heading.textContent = 'All games';
+  heading.textContent = '全部小游戏';
 
   const lead = document.createElement('p');
   lead.className = 'lead';
-  lead.textContent = 'Pick a world to enter. Games are tiny modules, so they load swiftly and cleanly.';
+  lead.textContent = '挑选一个世界进入，所有小游戏都轻量快速，随开即玩。';
 
   const grid = document.createElement('div');
   grid.className = 'cards-grid';
@@ -271,7 +271,7 @@ const renderGamesList = (target: HTMLElement): (() => void) => {
   if (games.length === 0) {
     const empty = document.createElement('p');
     empty.className = 'lead';
-    empty.textContent = 'The registry is still warming up. Check back soon for the first adventures!';
+    empty.textContent = '小游戏列表还在加载中，请稍后再来探索新的灵感！';
     target.append(heading, lead, empty);
   } else {
     games.forEach((game) => {
@@ -281,7 +281,7 @@ const renderGamesList = (target: HTMLElement): (() => void) => {
         accentColor: game.accentColor,
         footerActions: [
           createButton({
-            label: 'Enter world',
+            label: '进入世界',
             href: `#/games/${game.id}`,
             trailingIcon: '→'
           })
@@ -312,7 +312,7 @@ const renderGameDetail = (target: HTMLElement, gameId: string): (() => void) => 
   description.className = 'game-meta__description';
 
   const backLink = createButton({
-    label: 'Back to games',
+    label: '返回小游戏列表',
     href: '#/games',
     leadingIcon: '←',
     variant: 'ghost'
@@ -324,7 +324,7 @@ const renderGameDetail = (target: HTMLElement, gameId: string): (() => void) => 
   host.className = 'game-host';
   host.setAttribute('role', 'region');
   host.setAttribute('aria-live', 'polite');
-  host.textContent = 'Preparing this universe…';
+  host.textContent = '正在装载这个小游戏…';
 
   target.append(container, host);
 
@@ -334,9 +334,9 @@ const renderGameDetail = (target: HTMLElement, gameId: string): (() => void) => 
   let activeModule: GameModule | null = null;
 
   if (!definition) {
-    heading.textContent = 'Game not found';
-    description.textContent = "We couldn't find that entry in the registry.";
-    host.textContent = 'Try selecting a different world from the games list.';
+    heading.textContent = '未找到小游戏';
+    description.textContent = '没有找到对应的条目。';
+    host.textContent = '请返回列表选择其他小游戏。';
 
     return () => {
       target.innerHTML = '';
@@ -370,7 +370,7 @@ const renderGameDetail = (target: HTMLElement, gameId: string): (() => void) => 
       }
 
       console.error('Failed to load game module', error);
-      host.textContent = 'We could not launch this world right now. Please try again later.';
+      host.textContent = '当前无法加载该小游戏，请稍后再试。';
     });
 
   return () => {
@@ -397,14 +397,14 @@ const renderNotFound = (target: HTMLElement): (() => void) => {
 
   const heading = document.createElement('h1');
   heading.className = 'page-intro__title';
-  heading.textContent = "We lost this world";
+  heading.textContent = '没有找到这个页面';
 
   const description = document.createElement('p');
   description.className = 'page-intro__text';
-  description.textContent = 'The address you followed does not exist. Try heading back to the registry.';
+  description.textContent = '你访问的地址不存在，请返回首页继续探索。';
 
   const action = document.createElement('div');
-  action.appendChild(createButton({ label: 'Return home', href: '#/' }));
+  action.appendChild(createButton({ label: '返回首页', href: '#/' }));
 
   message.append(heading, description, action);
   target.appendChild(message);

@@ -5,18 +5,17 @@ export const createFooter = (): HTMLElement => {
   const inner = document.createElement('div');
   inner.className = 'app-footer__inner';
 
-  const copyright = document.createElement('p');
-  copyright.innerHTML =
-    'Miniverse is a playground for small, delightful experiments. Crafted with curiosity.';
+  const summary = document.createElement('p');
+  summary.textContent = '迷你宇宙是一个收集微型创意小游戏的实验场，由好奇心驱动。';
 
   const contact = document.createElement('p');
   const contactLink = document.createElement('a');
   contactLink.className = 'app-footer__link';
   contactLink.href = '#/games';
-  contactLink.textContent = 'Explore the games';
-  contact.append('Ready to explore more worlds? ', contactLink, '.');
+  contactLink.textContent = '前往小游戏列表';
+  contact.append('想继续探索更多世界？ ', contactLink, '。');
 
-  inner.append(copyright, contact);
+  inner.append(summary, contact);
   footer.appendChild(inner);
 
   return footer;
