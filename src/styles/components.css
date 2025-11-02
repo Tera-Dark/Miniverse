@@ -518,3 +518,250 @@
 .cancellation-cell.is-missed {
   box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-primary) 45%, transparent);
 }
+
+.memory-matrix {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.memory-matrix__intro {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.memory-matrix__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.memory-matrix__text {
+  margin: 0;
+  max-width: 52ch;
+  color: var(--color-text-muted);
+}
+
+.memory-matrix__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.memory-matrix__difficulties {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.memory-matrix__difficulty {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: none;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+  box-shadow: var(--shadow-subtle);
+}
+
+.memory-matrix__difficulty:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+.memory-matrix__difficulty.is-active {
+  background: linear-gradient(130deg, var(--color-primary), var(--color-primary-soft));
+  color: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.memory-matrix__contrast {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.memory-matrix__contrast-toggle {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: none;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-subtle);
+  transition: background var(--transition-base), transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.memory-matrix__contrast-toggle:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+}
+
+.memory-matrix__metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.memory-matrix__metric {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.memory-matrix__metric-label {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.memory-matrix__metric-value {
+  font-size: 1.1rem;
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+}
+
+.memory-matrix__metric-suffix {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.memory-matrix__summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.memory-matrix__summary-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.memory-matrix__summary-label {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.memory-matrix__summary-value {
+  font-size: 1.2rem;
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+}
+
+.memory-matrix__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.memory-matrix__grid {
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: repeat(var(--grid-size, 3), minmax(0, 1fr));
+}
+
+.memory-matrix__cell {
+  position: relative;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: clamp(0.75rem, 1.8vw, 1.15rem);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 26%, transparent);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), background var(--transition-base);
+}
+
+.memory-matrix__grid[data-size='5'] .memory-matrix__cell {
+  padding: clamp(0.6rem, 1.4vw, 0.95rem);
+}
+
+.memory-matrix__grid[data-size='6'] .memory-matrix__cell,
+.memory-matrix__grid[data-size='7'] .memory-matrix__cell {
+  padding: clamp(0.55rem, 1.2vw, 0.85rem);
+}
+
+.memory-matrix__cell:hover,
+.memory-matrix__cell:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-subtle);
+  outline: none;
+}
+
+.memory-matrix__cell:disabled {
+  cursor: default;
+  transform: none;
+}
+
+.memory-matrix__cell--selected {
+  background: color-mix(in srgb, var(--color-primary) 22%, transparent);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-primary) 60%, transparent);
+}
+
+.memory-matrix__cell--lit {
+  background: linear-gradient(130deg, var(--color-primary), var(--color-primary-soft));
+  color: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.memory-matrix__cell--correct {
+  background: linear-gradient(130deg, #22c55e, #16a34a);
+  color: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.memory-matrix__cell--missed {
+  background: linear-gradient(130deg, #f97316, #ea580c);
+  color: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.memory-matrix__cell--extra {
+  background: linear-gradient(130deg, #ef4444, #dc2626);
+  color: #ffffff;
+  box-shadow: var(--shadow-soft);
+}
+
+.memory-matrix__status {
+  margin: 0;
+  color: var(--color-text-muted);
+  min-height: 1.5rem;
+}
+
+.memory-matrix[data-contrast='high'] .memory-matrix__cell {
+  background: color-mix(in srgb, var(--color-primary) 24%, transparent);
+  box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--color-primary) 65%, transparent);
+}
+
+.memory-matrix[data-contrast='high'] .memory-matrix__cell--lit {
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 70%, transparent);
+}
+
+.memory-matrix[data-contrast='high'] .memory-matrix__cell--selected {
+  background: color-mix(in srgb, var(--color-primary) 35%, transparent);
+  box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--color-primary) 70%, transparent);
+}

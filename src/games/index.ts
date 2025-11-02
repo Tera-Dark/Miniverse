@@ -18,6 +18,13 @@ export const gamesRegistry: GameDefinition[] = [
     description: '通过不同难度的舒尔特方格锻炼专注力与视线速度。',
     accentColor: '#38bdf8',
     loader: () => import('./schulte-table').then((module) => module.default)
+  },
+  {
+    id: 'memory-matrix',
+    title: '记忆矩阵挑战',
+    description: '观察矩阵中的点亮图案并在隐藏后完整复现，训练工作记忆与空间定位能力。',
+    accentColor: '#a855f7',
+    loader: () => import('./memory-matrix').then((module) => module.default)
   }
 ];
 
