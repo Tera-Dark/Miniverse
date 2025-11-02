@@ -1,4 +1,4 @@
-import type { GameMeta, GameModule } from '../types';
+import type { GameFactory, GameMeta, GameModule } from '../types';
 
 interface Difficulty {
   id: string;
@@ -38,12 +38,6 @@ const difficulties: Difficulty[] = [
 
 const defaultDifficulty = difficulties[1] ?? difficulties[0];
 
-const meta: GameMeta = {
-  id: 'schulte-table',
-  title: '舒尔特方格训练',
-  description: '在不同大小的方格中按顺序寻找数字，锻炼专注力与视线速度。',
-  accentColor: '#38bdf8'
-};
 
 const shuffleNumbers = (size: number): number[] => {
   const values = Array.from({ length: size * size }, (_, index) => index + 1);
@@ -78,7 +72,7 @@ const randomCellStyle = (): CellStyle => {
   };
 };
 
-const schulteGame: GameModule = (() => {
+const buildGame = (meta: GameMeta): GameModule => {
   let host: HTMLElement | null = null;
   let board: HTMLDivElement | null = null;
   let statusNode: HTMLParagraphElement | null = null;
@@ -407,6 +401,8 @@ const schulteGame: GameModule = (() => {
       return meta;
     }
   };
-})();
+};
 
-export default schulteGame;
+export const createGame: GameFactory = (meta) => buildGame(meta);
+
+export default createGame;

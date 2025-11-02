@@ -1,14 +1,8 @@
-import type { GameMeta, GameModule } from '../types';
+import type { GameFactory, GameMeta, GameModule } from '../types';
 import { generatePattern } from './generator';
 import { getNextPhase } from './state';
 import type { MemoryMatrixConfig, MemoryMatrixPhase, MemoryPattern, SessionStats } from './types';
 
-const meta: GameMeta = {
-  id: 'memory-matrix',
-  title: '记忆矩阵挑战',
-  description: '观察矩阵中点亮的格子，短暂隐藏后尝试完全复现，训练工作记忆与空间还原能力。',
-  accentColor: '#a855f7'
-};
 
 interface DifficultyOption {
   id: string;
@@ -77,7 +71,7 @@ const PHASE_LABELS: Record<MemoryMatrixPhase, string> = {
 
 const formatSeconds = (milliseconds: number): string => (milliseconds / 1000).toFixed(2);
 
-const memoryMatrixGame: GameModule = (() => {
+const buildGame = (meta: GameMeta): GameModule => {
   let host: HTMLElement | null = null;
   let wrapper: HTMLDivElement | null = null;
   let gridElement: HTMLDivElement | null = null;
@@ -857,6 +851,8 @@ const memoryMatrixGame: GameModule = (() => {
       return meta;
     }
   };
-})();
+};
 
-export default memoryMatrixGame;
+export const createGame: GameFactory = (meta) => buildGame(meta);
+
+export default createGame;

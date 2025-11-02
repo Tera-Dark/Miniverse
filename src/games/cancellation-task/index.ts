@@ -1,4 +1,4 @@
-import type { GameMeta, GameModule } from '../types';
+import type { GameFactory, GameMeta, GameModule } from '../types';
 import { createSeededRng } from './rng';
 import { generateGrid, type GenerateGridOptions, type GeneratedGrid } from './generator';
 import type { Cell, Color, Shape, SimilarityLevel, TargetRuleDefinition } from './types';
@@ -102,13 +102,6 @@ const difficulties: DifficultyDefinition[] = [
 const defaultRule = rulePresets[0];
 const defaultDifficulty = difficulties[1];
 
-const meta: GameMeta = {
-  id: 'cancellation-task',
-  title: '取消任务：图形搜索',
-  description: '根据目标规则快速标记所有目标图形，统计命中率与反应时间。',
-  accentColor: '#f97316'
-};
-
 type CellState = {
   cell: Cell;
   element: HTMLButtonElement;
@@ -166,7 +159,7 @@ const createShapeIcon = (shape: Shape, color: Color): SVGSVGElement => {
   return svg;
 };
 
-const buildGame = (): GameModule => {
+const buildGame = (meta: GameMeta): GameModule => {
   let host: HTMLElement | null = null;
   let board: HTMLDivElement | null = null;
   let statusNode: HTMLParagraphElement | null = null;
@@ -724,6 +717,6 @@ const buildGame = (): GameModule => {
   };
 };
 
-const cancellationTaskGame: GameModule = buildGame();
+export const createGame: GameFactory = (meta) => buildGame(meta);
 
-export default cancellationTaskGame;
+export default createGame;
