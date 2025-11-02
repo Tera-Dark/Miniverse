@@ -1232,34 +1232,42 @@ const stopSignalGame: GameModule = (() => {
     const hud = document.createElement('div');
     hud.className = 'stop-signal__hud';
 
-    const makeMetric = (label: string): HTMLDivElement => {
-      const block = document.createElement('div');
-      block.className = 'stop-signal__metric';
+    const createMetric = (
+      label: string
+    ): { element: HTMLDivElement; value: HTMLSpanElement } => {
+      const element = document.createElement('div');
+      element.className = 'stop-signal__metric';
       const title = document.createElement('span');
       title.className = 'stop-signal__metric-label';
       title.textContent = label;
       const value = document.createElement('span');
       value.className = 'stop-signal__metric-value';
-      block.append(title, value);
-      return block;
+      element.append(title, value);
+      return { element, value };
     };
 
-    const phaseMetric = makeMetric('当前阶段');
-    phaseLabelNode = phaseMetric.querySelector('.stop-signal__metric-value');
+    const phaseMetric = createMetric('当前阶段');
+    phaseLabelNode = phaseMetric.value;
 
-    const trialMetric = makeMetric('已完成试次');
-    trialCounterNode = trialMetric.querySelector('.stop-signal__metric-value');
+    const trialMetric = createMetric('已完成试次');
+    trialCounterNode = trialMetric.value;
 
-    const stopMetric = makeMetric('停止成功率');
-    stopRateNode = stopMetric.querySelector('.stop-signal__metric-value');
+    const stopMetric = createMetric('停止成功率');
+    stopRateNode = stopMetric.value;
 
-    const goMetric = makeMetric('Go 准确率');
-    goAccuracyNode = goMetric.querySelector('.stop-signal__metric-value');
+    const goMetric = createMetric('Go 准确率');
+    goAccuracyNode = goMetric.value;
 
-    const ssdMetric = makeMetric('当前 SSD');
-    ssdValueNode = ssdMetric.querySelector('.stop-signal__metric-value');
+    const ssdMetric = createMetric('当前 SSD');
+    ssdValueNode = ssdMetric.value;
 
-    hud.append(phaseMetric, trialMetric, stopMetric, goMetric, ssdMetric);
+    hud.append(
+      phaseMetric.element,
+      trialMetric.element,
+      stopMetric.element,
+      goMetric.element,
+      ssdMetric.element
+    );
 
     const stage = document.createElement('div');
     stage.className = 'stop-signal__stage';
