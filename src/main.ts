@@ -9,9 +9,15 @@ import { createFooter } from './components/Footer';
 import { createHeader } from './components/Header';
 import { createThemeToggle, type ThemeMode } from './components/ThemeToggle';
 import { HashRouter } from './router';
-import { getGameDefinition, listGames } from './games';
-import type { GameDefinition } from './games';
-import type { GameModule } from './games/types';
+import {
+  getGameDefinition,
+  getGamePath,
+  gamesIndexPath,
+  isGameId,
+  listGames
+} from './games';
+import type { GameDefinition, RegisteredGameMeta } from './games';
+import type { GameMeta, GameModule } from './games/types';
 
 const THEME_STORAGE_KEY = 'miniverse:theme';
 
@@ -98,7 +104,7 @@ const createThemeController = (): ThemeController => {
   };
 };
 
-const initializeShell = () => {
+const initializeShell = (navigationLinks: Array<{ label: string; path: string }>) => {
   const root = document.querySelector<HTMLDivElement>('#app');
 
   if (!root) {
@@ -113,15 +119,13 @@ const initializeShell = () => {
   themeController.subscribe((mode) => themeToggle.setTheme(mode));
 
   const header = createHeader({
-    links: [
-      { label: '首页', path: '/' },
-      { label: '小游戏', path: '/games' }
-    ],
+    links: navigationLinks,
     themeToggle: themeToggle.element
   });
 
   const main = document.createElement('main');
   main.className = 'app-main';
+  main.setAttribute('tabindex', '-1');
 
   const footer = createFooter();
 
@@ -136,7 +140,7 @@ const initializeShell = () => {
   };
 };
 
-const renderHome = (target: HTMLElement): (() => void) => {
+const renderHome = (target: HTMLElement, games: RegisteredGameMeta[]): (() => void) => {
   target.innerHTML = '';
 
   const section = document.createElement('section');
@@ -159,7 +163,7 @@ const renderHome = (target: HTMLElement): (() => void) => {
   actions.appendChild(
     createButton({
       label: '浏览小游戏',
-      href: '#/games',
+      href: `#${gamesIndexPath}`,
       trailingIcon: '→'
     })
   );
@@ -221,7 +225,6 @@ const renderHome = (target: HTMLElement): (() => void) => {
   const previewGrid = document.createElement('div');
   previewGrid.className = 'cards-grid';
 
-  const games = listGames();
   if (games.length > 0) {
     const first = games[0];
     const previewCard = createCard({
@@ -231,7 +234,7 @@ const renderHome = (target: HTMLElement): (() => void) => {
       footerActions: [
         createButton({
           label: '开始体验',
-          href: `#/games/${first.id}`,
+          href: `#${getGamePath(first.id)}`,
           variant: 'primary',
           trailingIcon: '↗'
         })
@@ -252,7 +255,7 @@ const renderHome = (target: HTMLElement): (() => void) => {
   };
 };
 
-const renderGamesList = (target: HTMLElement): (() => void) => {
+const renderGamesList = (target: HTMLElement, games: RegisteredGameMeta[]): (() => void) => {
   target.innerHTML = '';
 
   const heading = document.createElement('h1');
@@ -265,8 +268,6 @@ const renderGamesList = (target: HTMLElement): (() => void) => {
 
   const grid = document.createElement('div');
   grid.className = 'cards-grid';
-
-  const games = listGames();
 
   if (games.length === 0) {
     const empty = document.createElement('p');
@@ -282,7 +283,7 @@ const renderGamesList = (target: HTMLElement): (() => void) => {
         footerActions: [
           createButton({
             label: '进入世界',
-            href: `#/games/${game.id}`,
+            href: `#${getGamePath(game.id)}`,
             trailingIcon: '→'
           })
         ]
@@ -299,7 +300,7 @@ const renderGamesList = (target: HTMLElement): (() => void) => {
   };
 };
 
-const renderGameDetail = (target: HTMLElement, gameId: string): (() => void) => {
+const renderGameDetail = (target: HTMLElement, definition: GameDefinition): (() => void) => {
   target.innerHTML = '';
 
   const container = document.createElement('section');
@@ -313,12 +314,35 @@ const renderGameDetail = (target: HTMLElement, gameId: string): (() => void) => 
 
   const backLink = createButton({
     label: '返回小游戏列表',
-    href: '#/games',
+    href: `#${gamesIndexPath}`,
     leadingIcon: '←',
     variant: 'ghost'
   });
 
-  container.append(backLink, heading, description);
+  const metadata = document.createElement('div');
+  metadata.className = 'game-meta__metadata';
+
+  const tagsSection = document.createElement('div');
+  tagsSection.className = 'game-meta__section';
+  const tagsTitle = document.createElement('p');
+  tagsTitle.className = 'game-meta__section-title';
+  tagsTitle.textContent = '玩法标签';
+  const tagsList = document.createElement('ul');
+  tagsList.className = 'game-meta__tags';
+  tagsSection.append(tagsTitle, tagsList);
+
+  const presetsSection = document.createElement('div');
+  presetsSection.className = 'game-meta__section';
+  const presetsTitle = document.createElement('p');
+  presetsTitle.className = 'game-meta__section-title';
+  presetsTitle.textContent = '难度预设';
+  const presetsList = document.createElement('ul');
+  presetsList.className = 'game-meta__presets';
+  presetsSection.append(presetsTitle, presetsList);
+
+  metadata.append(tagsSection, presetsSection);
+
+  container.append(backLink, heading, description, metadata);
 
   const host = document.createElement('div');
   host.className = 'game-host';
@@ -328,24 +352,76 @@ const renderGameDetail = (target: HTMLElement, gameId: string): (() => void) => 
 
   target.append(container, host);
 
-  const definition: GameDefinition | undefined = getGameDefinition(gameId);
-
   let isActive = true;
   let activeModule: GameModule | null = null;
 
-  if (!definition) {
-    heading.textContent = '未找到小游戏';
-    description.textContent = '没有找到对应的条目。';
-    host.textContent = '请返回列表选择其他小游戏。';
+  const updateMetadataVisibility = () => {
+    const hasTags = tagsList.childElementCount > 0;
+    const hasPresets = presetsList.childElementCount > 0;
+    metadata.hidden = !hasTags && !hasPresets;
+    tagsSection.hidden = !hasTags;
+    presetsSection.hidden = !hasPresets;
+  };
 
-    return () => {
-      target.innerHTML = '';
-    };
-  }
+  const syncTags = (tags: GameDefinition['tags']) => {
+    tagsList.innerHTML = '';
 
-  container.style.setProperty('--game-accent', definition.accentColor);
-  heading.textContent = definition.title;
-  description.textContent = definition.description;
+    if (!tags || tags.length === 0) {
+      updateMetadataVisibility();
+      return;
+    }
+
+    tags.forEach((tag) => {
+      const item = document.createElement('li');
+      item.className = 'game-meta__tag';
+      item.textContent = tag;
+      tagsList.appendChild(item);
+    });
+
+    updateMetadataVisibility();
+  };
+
+  const syncPresets = (presets: GameDefinition['difficultyPresets']) => {
+    presetsList.innerHTML = '';
+
+    if (!presets || presets.length === 0) {
+      updateMetadataVisibility();
+      return;
+    }
+
+    presets.forEach((preset) => {
+      const item = document.createElement('li');
+      item.className = 'game-meta__preset';
+      item.dataset.presetId = preset.id;
+
+      const label = document.createElement('span');
+      label.className = 'game-meta__preset-label';
+      label.textContent = preset.label;
+
+      item.appendChild(label);
+
+      if (preset.description) {
+        const body = document.createElement('p');
+        body.className = 'game-meta__preset-description';
+        body.textContent = preset.description;
+        item.appendChild(body);
+      }
+
+      presetsList.appendChild(item);
+    });
+
+    updateMetadataVisibility();
+  };
+
+  const applyMeta = (meta: GameMeta) => {
+    heading.textContent = meta.title;
+    description.textContent = meta.description;
+    container.style.setProperty('--game-accent', meta.accentColor);
+    syncTags(meta.tags ?? definition.tags);
+    syncPresets(meta.difficultyPresets ?? definition.difficultyPresets);
+  };
+
+  applyMeta(definition);
 
   definition
     .loader()
@@ -357,9 +433,7 @@ const renderGameDetail = (target: HTMLElement, gameId: string): (() => void) => 
 
       activeModule = module;
       const meta = module.getMeta();
-      heading.textContent = meta.title;
-      description.textContent = meta.description;
-      container.style.setProperty('--game-accent', meta.accentColor);
+      applyMeta(meta);
       host.textContent = '';
 
       module.init(host, {});
@@ -372,6 +446,8 @@ const renderGameDetail = (target: HTMLElement, gameId: string): (() => void) => 
       console.error('Failed to load game module', error);
       host.textContent = '当前无法加载该小游戏，请稍后再试。';
     });
+
+  updateMetadataVisibility();
 
   return () => {
     isActive = false;
@@ -388,6 +464,17 @@ const renderGameDetail = (target: HTMLElement, gameId: string): (() => void) => 
     target.innerHTML = '';
   };
 };
+
+const buildNavigationLinks = (
+  games: RegisteredGameMeta[]
+): Array<{ label: string; path: string }> => [
+  { label: '首页', path: '/' },
+  { label: '小游戏', path: gamesIndexPath },
+  ...games.map((game) => ({
+    label: game.title,
+    path: getGamePath(game.id)
+  }))
+];
 
 const renderNotFound = (target: HTMLElement): (() => void) => {
   target.innerHTML = '';
@@ -415,18 +502,39 @@ const renderNotFound = (target: HTMLElement): (() => void) => {
 };
 
 const bootstrap = () => {
-  const { main, header } = initializeShell();
+  const gamesCatalog = listGames();
+  const navigationLinks = buildNavigationLinks(gamesCatalog);
+  const { main, header } = initializeShell(navigationLinks);
 
   const router = new HashRouter();
 
-  router.register('/', () => renderHome(main));
-  router.register('/games', () => renderGamesList(main));
-  router.register('/games/:id', ({ params }) => renderGameDetail(main, params.id));
+  router.register('/', () => renderHome(main, gamesCatalog));
+  router.register(gamesIndexPath, () => renderGamesList(main, gamesCatalog));
+  router.register('/games/:id', ({ params }) => {
+    const candidate = params.id;
+
+    if (!candidate || !isGameId(candidate)) {
+      return renderNotFound(main);
+    }
+
+    const definition = getGameDefinition(candidate);
+
+    if (!definition) {
+      return renderNotFound(main);
+    }
+
+    return renderGameDetail(main, definition);
+  });
   router.setNotFound(() => renderNotFound(main));
 
   router.onChange((path) => {
     header.setActive(path);
     window.scrollTo({ top: 0, left: 0 });
+    try {
+      main.focus({ preventScroll: true });
+    } catch (_error) {
+      main.focus();
+    }
   });
 
   router.start();
