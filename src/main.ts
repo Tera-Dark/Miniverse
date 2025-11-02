@@ -1,14 +1,13 @@
-import './theme.css';
 import './styles/base.css';
-import './styles/layout.css';
 import './styles/components.css';
+import './styles/layout.css';
+import './theme.css';
 
 import { createButton } from './components/Button';
 import { createCard } from './components/Card';
 import { createFooter } from './components/Footer';
 import { createHeader } from './components/Header';
 import { createThemeToggle, type ThemeMode } from './components/ThemeToggle';
-import { HashRouter } from './router';
 import {
   getGameDefinition,
   getGamePath,
@@ -18,6 +17,7 @@ import {
 } from './games';
 import type { GameDefinition, RegisteredGameMeta } from './games';
 import type { GameMeta, GameModule } from './games/types';
+import { HashRouter } from './router';
 
 const THEME_STORAGE_KEY = 'miniverse:theme';
 
