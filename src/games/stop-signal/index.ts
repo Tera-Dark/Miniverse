@@ -86,6 +86,13 @@ const pickDirection = (): Direction => (Math.random() < 0.5 ? 'left' : 'right');
 
 const clampNumber = (value: number, min: number, max: number): number => Math.min(Math.max(value, min), max);
 
+const assertElement = <T extends HTMLElement>(element: T | null, message: string): T => {
+  if (!element) {
+    throw new Error(message);
+  }
+  return element;
+};
+
 const formatRate = (value: number | null): string => {
   if (value === null || Number.isNaN(value)) {
     return '—';
@@ -953,61 +960,80 @@ const stopSignalGame: GameModule = (() => {
   };
 
   const attachSettingsListeners = (): void => {
-    totalTrialsInput?.addEventListener('change', () => {
-      const value = clampNumber(Math.round(parseNumberValue(totalTrialsInput.value, settings.totalTrials)), 20, 240);
-      settings.totalTrials = value;
-      applySettingsUpdate();
-      updateProgressBar();
-    });
+    try {
+      const totalTrialsField = assertElement(totalTrialsInput, 'Missing total trials input');
+      const stopProportionField = assertElement(stopProportionInput, 'Missing stop proportion input');
+      const initialSsdField = assertElement(initialSsdInput, 'Missing initial SSD input');
+      const stepSizeField = assertElement(stepSizeInput, 'Missing step size input');
+      const leftKeyField = assertElement(leftKeyInput, 'Missing left key input');
+      const rightKeyField = assertElement(rightKeyInput, 'Missing right key input');
+      const audioToggleField = assertElement(audioToggleInput, 'Missing audio toggle input');
+      const highContrastField = assertElement(highContrastInput, 'Missing high contrast toggle input');
+      const largeButtonsField = assertElement(largeButtonsInput, 'Missing large buttons toggle input');
 
-    stopProportionInput?.addEventListener('change', () => {
-      const value = clampNumber(parseNumberValue(stopProportionInput.value, settings.stopProportion), 0.1, 0.5);
-      settings.stopProportion = parseFloat(value.toFixed(2));
-      applySettingsUpdate();
-    });
+      totalTrialsField.addEventListener('change', () => {
+        const value = clampNumber(Math.round(parseNumberValue(totalTrialsField.value, settings.totalTrials)), 20, 240);
+        settings.totalTrials = value;
+        applySettingsUpdate();
+        updateProgressBar();
+      });
 
-    initialSsdInput?.addEventListener('change', () => {
-      const value = clampNumber(Math.round(parseNumberValue(initialSsdInput.value, settings.initialSsd)), settings.minSsd, settings.maxSsd);
-      settings.initialSsd = value;
-      currentSsd = value;
-      applySettingsUpdate();
-    });
+      stopProportionField.addEventListener('change', () => {
+        const value = clampNumber(parseNumberValue(stopProportionField.value, settings.stopProportion), 0.1, 0.5);
+        settings.stopProportion = parseFloat(value.toFixed(2));
+        applySettingsUpdate();
+      });
 
-    stepSizeInput?.addEventListener('change', () => {
-      const value = clampNumber(Math.round(parseNumberValue(stepSizeInput.value, settings.ssdStep)), 10, 150);
-      settings.ssdStep = value;
-      applySettingsUpdate();
-    });
+      initialSsdField.addEventListener('change', () => {
+        const value = clampNumber(
+          Math.round(parseNumberValue(initialSsdField.value, settings.initialSsd)),
+          settings.minSsd,
+          settings.maxSsd
+        );
+        settings.initialSsd = value;
+        currentSsd = value;
+        applySettingsUpdate();
+      });
 
-    leftKeyInput?.addEventListener('change', () => {
-      const value = leftKeyInput.value.trim();
-      settings.leftKey = value || defaultSettings.leftKey;
-      applySettingsUpdate();
-    });
+      stepSizeField.addEventListener('change', () => {
+        const value = clampNumber(Math.round(parseNumberValue(stepSizeField.value, settings.ssdStep)), 10, 150);
+        settings.ssdStep = value;
+        applySettingsUpdate();
+      });
 
-    rightKeyInput?.addEventListener('change', () => {
-      const value = rightKeyInput.value.trim();
-      settings.rightKey = value || defaultSettings.rightKey;
-      applySettingsUpdate();
-    });
+      leftKeyField.addEventListener('change', () => {
+        const value = leftKeyField.value.trim();
+        settings.leftKey = value || defaultSettings.leftKey;
+        applySettingsUpdate();
+      });
 
-    audioToggleInput?.addEventListener('change', () => {
-      settings.audioEnabled = Boolean(audioToggleInput.checked);
-      if (!settings.audioEnabled && tonePlayer) {
-        tonePlayer.dispose();
-        tonePlayer = null;
-      }
-    });
+      rightKeyField.addEventListener('change', () => {
+        const value = rightKeyField.value.trim();
+        settings.rightKey = value || defaultSettings.rightKey;
+        applySettingsUpdate();
+      });
 
-    highContrastInput?.addEventListener('change', () => {
-      settings.highContrast = Boolean(highContrastInput.checked);
-      applySettingsUpdate();
-    });
+      audioToggleField.addEventListener('change', () => {
+        settings.audioEnabled = Boolean(audioToggleField.checked);
+        if (!settings.audioEnabled && tonePlayer) {
+          tonePlayer.dispose();
+          tonePlayer = null;
+        }
+      });
 
-    largeButtonsInput?.addEventListener('change', () => {
-      settings.largeButtons = Boolean(largeButtonsInput.checked);
-      applySettingsUpdate();
-    });
+      highContrastField.addEventListener('change', () => {
+        settings.highContrast = Boolean(highContrastField.checked);
+        applySettingsUpdate();
+      });
+
+      largeButtonsField.addEventListener('change', () => {
+        settings.largeButtons = Boolean(largeButtonsField.checked);
+        applySettingsUpdate();
+      });
+    } catch (error) {
+      console.error(error);
+      showStatus('初始化设置控件时出现问题，请刷新页面后重试。');
+    }
   };
 
   const applyPreset = (preset: 'short' | 'standard'): void => {
