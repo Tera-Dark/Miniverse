@@ -1,4 +1,5 @@
 import type { GameMeta, GameModule } from '../types';
+import { assertDefined } from '../../utils/assert';
 import { generatePattern } from './generator';
 import { getNextPhase } from './state';
 import type { MemoryMatrixConfig, MemoryMatrixPhase, MemoryPattern, SessionStats } from './types';
@@ -35,6 +36,11 @@ const progressiveLevels: MemoryMatrixConfig[] = [
   { gridSize: 6, patternLength: 8, exposureMs: 900, avoidAdjacency: true }
 ];
 
+const progressiveFallback = assertDefined(
+  progressiveLevels[progressiveLevels.length - 1],
+  '必须配置渐进难度等级'
+);
+
 const difficulties: DifficultyOption[] = [
   {
     id: 'easy',
@@ -65,7 +71,7 @@ const difficulties: DifficultyOption[] = [
   }
 ];
 
-const defaultDifficulty = difficulties[0];
+const defaultDifficulty = assertDefined(difficulties[0], '必须至少定义一种难度配置');
 
 const PHASE_LABELS: Record<MemoryMatrixPhase, string> = {
   next: '准备',
@@ -235,9 +241,7 @@ const memoryMatrixGame: GameModule = (() => {
       return currentDifficulty.config;
     }
 
-    return (
-      progressiveLevels[progressiveLevelIndex] ?? progressiveLevels[progressiveLevels.length - 1]
-    );
+    return progressiveLevels[progressiveLevelIndex] ?? progressiveFallback;
   };
 
   const ensureGrid = (size: number): void => {

@@ -99,8 +99,8 @@ const difficulties: DifficultyDefinition[] = [
   }
 ];
 
-const defaultRule = rulePresets[0];
-const defaultDifficulty = difficulties[1];
+const defaultRule = rulePresets[0]!;
+const defaultDifficulty = difficulties[1] ?? difficulties[0]!;
 
 const meta: GameMeta = {
   id: 'cancellation-task',

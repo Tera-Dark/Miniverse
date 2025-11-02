@@ -36,7 +36,7 @@ const difficulties: Difficulty[] = [
   }
 ];
 
-const defaultDifficulty = difficulties[1] ?? difficulties[0];
+const defaultDifficulty = difficulties[1] ?? difficulties[0]!;
 
 const meta: GameMeta = {
   id: 'schulte-table',
@@ -49,7 +49,15 @@ const shuffleNumbers = (size: number): number[] => {
   const values = Array.from({ length: size * size }, (_, index) => index + 1);
   for (let index = values.length - 1; index > 0; index -= 1) {
     const swapIndex = Math.floor(Math.random() * (index + 1));
-    [values[index], values[swapIndex]] = [values[swapIndex], values[index]];
+    const current = values[index];
+    const swapValue = values[swapIndex];
+
+    if (current === undefined || swapValue === undefined) {
+      continue;
+    }
+
+    values[index] = swapValue;
+    values[swapIndex] = current;
   }
   return values;
 };
@@ -62,18 +70,23 @@ const randomCellStyle = (): CellStyle => {
   const isDark = document.documentElement.dataset.theme === 'dark';
   const baseLightness = isDark ? 68 : 38;
   const lightness = Math.min(90, baseLightness + Math.random() * 14);
-  const fontWeights = ['500', '600', '700', '800'];
-  const letterSpacings = ['0em', '0.02em', '-0.01em'];
+  const fontWeights = ['500', '600', '700', '800'] as const;
+  const letterSpacings = ['0em', '0.02em', '-0.01em'] as const;
   const textShadow =
     Math.random() > 0.7
       ? `0 0 18px hsla(${hue} ${Math.min(saturation + 18, 95)}% ${Math.min(lightness + 18, 92)}% / 0.45)`
       : '';
 
+  const pickRandom = <T>(values: readonly T[]): T => {
+    const index = Math.floor(Math.random() * values.length);
+    return values[index] ?? values[0]!;
+  };
+
   return {
     color: `hsl(${hue} ${saturation}% ${lightness}%)`,
-    fontWeight: fontWeights[Math.floor(Math.random() * fontWeights.length)],
+    fontWeight: pickRandom(fontWeights),
     fontStyle: Math.random() > 0.78 ? 'italic' : 'normal',
-    letterSpacing: letterSpacings[Math.floor(Math.random() * letterSpacings.length)],
+    letterSpacing: pickRandom(letterSpacings),
     textShadow
   };
 };

@@ -138,7 +138,8 @@ export class HashRouter {
       const params: RouteParams = {};
 
       route.paramKeys.forEach((key, index) => {
-        params[key] = decodeURIComponent(match[index + 1]);
+        const value = match[index + 1] ?? '';
+        params[key] = decodeURIComponent(value);
       });
 
       const result = route.handler({

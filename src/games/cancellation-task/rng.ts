@@ -58,10 +58,19 @@ export const createSeededRng = (seed: number | string | undefined): Rng => {
     const copy = [...values];
     for (let index = copy.length - 1; index > 0; index -= 1) {
       const swapIndex = Math.floor(next() * (index + 1));
-      [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
+      const current = copy[index];
+      const swapValue = copy[swapIndex];
+
+      if (current === undefined || swapValue === undefined) {
+        continue;
+      }
+
+      copy[index] = swapValue;
+      copy[swapIndex] = current;
     }
     return copy;
   };
+
 
   return {
     next,

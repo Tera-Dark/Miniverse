@@ -1,7 +1,7 @@
-import './theme.css';
 import './styles/base.css';
-import './styles/layout.css';
 import './styles/components.css';
+import './styles/layout.css';
+import './theme.css';
 
 import { createButton } from './components/Button';
 import { createCard } from './components/Card';
@@ -198,7 +198,8 @@ const renderHome = (target: HTMLElement, games: RegisteredGameMeta[]): (() => vo
     }
   ];
 
-  const palette = ['#c4b5fd', '#f9a8d4', '#fde68a'];
+  const palette = ['#c4b5fd', '#f9a8d4', '#fde68a'] as const;
+  const paletteFallback = palette[0] ?? '#c4b5fd';
 
   const grid = document.createElement('div');
   grid.className = 'cards-grid';
@@ -207,7 +208,7 @@ const renderHome = (target: HTMLElement, games: RegisteredGameMeta[]): (() => vo
     const card = createCard({
       title: entry.title,
       description: entry.description,
-      accentColor: palette[index % palette.length]
+      accentColor: palette[index % palette.length] ?? paletteFallback
     });
     grid.appendChild(card);
   });
@@ -225,16 +226,17 @@ const renderHome = (target: HTMLElement, games: RegisteredGameMeta[]): (() => vo
   const previewGrid = document.createElement('div');
   previewGrid.className = 'cards-grid';
 
-  if (games.length > 0) {
-    const first = games[0];
+  const firstGame = games.at(0);
+
+  if (firstGame) {
     const previewCard = createCard({
-      title: first.title,
-      description: first.description,
-      accentColor: first.accentColor,
+      title: firstGame.title,
+      description: firstGame.description,
+      accentColor: firstGame.accentColor,
       footerActions: [
         createButton({
           label: '开始体验',
-          href: `#${getGamePath(first.id)}`,
+          href: `#${getGamePath(firstGame.id)}`,
           variant: 'primary',
           trailingIcon: '↗'
         })
