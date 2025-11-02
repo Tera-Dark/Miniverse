@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { generateGrid } from './generator';
 import { createSeededRng } from './rng';
-import type { Color, TargetRuleDefinition } from './types';
+import type { Color, Shape, TargetRuleDefinition } from './types';
 
 describe('generateGrid', () => {
   const rule: TargetRuleDefinition = {
@@ -14,6 +14,7 @@ describe('generateGrid', () => {
   };
 
   const palette: Color[] = ['rose', 'sky', 'emerald', 'amber'];
+  const shapes: Shape[] = ['triangle', 'circle', 'square'];
 
   it('Produces the expected number of cells and targets', () => {
     const rng = createSeededRng('unit-test');
@@ -25,7 +26,7 @@ describe('generateGrid', () => {
           minTargets: 5,
           maxTargets: 7,
           palette,
-          shapes: ['triangle', 'circle', 'square'],
+          shapes,
           rule,
           similarity: 'mixed'
         },
@@ -53,7 +54,7 @@ describe('generateGrid', () => {
       minTargets: 8,
       maxTargets: 10,
       palette,
-      shapes: ['triangle', 'circle', 'square'],
+      shapes,
       rule,
       similarity: 'mimic'
     };
