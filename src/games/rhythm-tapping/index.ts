@@ -1,4 +1,4 @@
-import type { GameMeta, GameModule } from '../types';
+import type { GameFactory, GameMeta, GameModule } from '../types';
 import {
   DEFAULT_BLOCK_BEATS,
   DEFAULT_BEAT_TOLERANCE_MS,
@@ -13,12 +13,7 @@ import {
   type TapSource
 } from './logic';
 
-const meta: GameMeta = {
-  id: 'rhythm-tapping',
-  title: '节奏同步：节拍敲击',
-  description: '跟随节拍器稳定敲击，测量节奏偏移、RMS 误差与节奏稳定性。',
-  accentColor: '#facc15'
-};
+
 
 type PresetId = 'easy' | 'normal' | 'hard' | 'custom';
 
@@ -432,7 +427,7 @@ interface WindowWithWebkit extends Window {
   webkitAudioContext?: typeof AudioContext;
 }
 
-const rhythmTappingGame: GameModule = (() => {
+const buildGame = (meta: GameMeta): GameModule => {
   let host: HTMLElement | null = null;
   let container: HTMLDivElement | null = null;
   let pulseNode: HTMLDivElement | null = null;
@@ -1426,6 +1421,8 @@ const rhythmTappingGame: GameModule = (() => {
       return meta;
     }
   } satisfies GameModule;
-})();
+};
 
-export default rhythmTappingGame;
+export const createGame: GameFactory = (meta) => buildGame(meta);
+
+export default createGame;

@@ -1,4 +1,4 @@
-import type { GameMeta, GameModule } from '../types';
+import type { GameFactory, GameMeta, GameModule } from '../types';
 import {
   applyStaircase,
   computeSessionMetrics,
@@ -6,12 +6,7 @@ import {
   type TrialType
 } from './logic';
 
-const meta: GameMeta = {
-  id: 'stop-signal',
-  title: '停止信号任务（SST）',
-  description: '通过自适应停止信号延迟测量抑制控制能力，计算 SSRT 与停止成功率。',
-  accentColor: '#f472b6'
-};
+
 
 type Direction = 'left' | 'right';
 type TrialBlock = 'practice' | 'main';
@@ -198,7 +193,7 @@ const createTonePlayer = (): TonePlayer => {
   };
 };
 
-const stopSignalGame: GameModule = (() => {
+const buildGame = (meta: GameMeta): GameModule => {
   let host: HTMLElement | null = null;
   let wrapper: HTMLDivElement | null = null;
 
@@ -1399,6 +1394,8 @@ const stopSignalGame: GameModule = (() => {
     destroy,
     getMeta: () => meta
   };
-})();
+};
 
-export default stopSignalGame;
+export const createGame: GameFactory = (meta) => buildGame(meta);
+
+export default createGame;

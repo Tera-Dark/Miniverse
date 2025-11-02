@@ -1,49 +1,18 @@
-import type { GameMeta, GameModule } from './types';
+import {
+  gamesRegistry as registry,
+  getGameById as readGameById,
+  listGameOptionsByTag as readGameOptionsByTag,
+  listGames as readGames
+} from './registry';
+import type { GameRegistryEntry } from './registry';
+import type { DifficultyPreset, GameId, GameMeta, GameModule, GameTag } from './types';
 
-export interface GameDefinition extends GameMeta {
-  loader: () => Promise<GameModule>;
-}
+export { registry as gamesRegistry };
+export type { GameRegistryEntry };
+export type { DifficultyPreset, GameId, GameMeta, GameModule, GameTag };
 
-export const gamesRegistry: GameDefinition[] = [
-  {
-    id: 'cancellation-task',
-    title: '取消任务：图形搜索',
-    description: '在彩色图形矩阵中找出所有符合规则的目标，训练视觉搜索与抑制干扰能力。',
-    accentColor: '#f97316',
-    loader: () => import('./cancellation-task').then((module) => module.default)
-  },
-  {
-    id: 'schulte-table',
-    title: '舒尔特方格训练',
-    description: '通过不同难度的舒尔特方格锻炼专注力与视线速度。',
-    accentColor: '#38bdf8',
-    loader: () => import('./schulte-table').then((module) => module.default)
-  },
-  {
-    id: 'memory-matrix',
-    title: '记忆矩阵挑战',
-    description: '观察矩阵中的点亮图案并在隐藏后完整复现，训练工作记忆与空间定位能力。',
-    accentColor: '#a855f7',
-    loader: () => import('./memory-matrix').then((module) => module.default)
-  },
-  {
-    id: 'stop-signal',
-    title: '停止信号任务（SST）',
-    description: '自适应停止信号延迟的抑制控制测验，输出 SSRT 与停止成功率。',
-    accentColor: '#f472b6',
-    loader: () => import('./stop-signal').then((module) => module.default)
-  },
-  {
-    id: 'rhythm-tapping',
-    title: '节奏同步：节拍敲击',
-    description: '跟随节拍器敲击保持同步，测量节奏平均偏移、RMS 误差与稳定性指标。',
-    accentColor: '#facc15',
-    loader: () => import('./rhythm-tapping').then((module) => module.default)
-  }
-];
+export const listGames = (): GameMeta[] => readGames();
 
-export const listGames = (): GameMeta[] =>
-  gamesRegistry.map(({ loader: _loader, ...meta }) => ({ ...meta }));
+export const getGameById = (id: GameId): GameRegistryEntry | undefined => readGameById(id);
 
-export const getGameDefinition = (id: string): GameDefinition | undefined =>
-  gamesRegistry.find((game) => game.id === id);
+export const listGameOptionsByTag = (tag: GameTag): GameRegistryEntry[] => readGameOptionsByTag(tag);

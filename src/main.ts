@@ -9,8 +9,8 @@ import { createFooter } from './components/Footer';
 import { createHeader } from './components/Header';
 import { createThemeToggle, type ThemeMode } from './components/ThemeToggle';
 import { HashRouter } from './router';
-import { getGameDefinition, listGames } from './games';
-import type { GameDefinition } from './games';
+import { getGameById, listGames } from './games';
+import type { GameRegistryEntry } from './games';
 import type { GameModule } from './games/types';
 
 const THEME_STORAGE_KEY = 'miniverse:theme';
@@ -328,7 +328,7 @@ const renderGameDetail = (target: HTMLElement, gameId: string): (() => void) => 
 
   target.append(container, host);
 
-  const definition: GameDefinition | undefined = getGameDefinition(gameId);
+  const definition: GameRegistryEntry | undefined = getGameById(gameId);
 
   let isActive = true;
   let activeModule: GameModule | null = null;
