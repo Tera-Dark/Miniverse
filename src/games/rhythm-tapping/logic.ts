@@ -83,7 +83,8 @@ export const assignNearestTaps = (
 
     for (let index = 0; index < available.length; index += 1) {
       const slot = available[index];
-      if (slot.used) {
+
+      if (!slot || slot.used) {
         continue;
       }
 
@@ -97,6 +98,15 @@ export const assignNearestTaps = (
 
     if (bestIndex >= 0 && bestDistance <= sanitizedTolerance) {
       const selected = available[bestIndex];
+
+      if (!selected) {
+        return {
+          beat,
+          tap: null,
+          asynchrony: null
+        } satisfies BeatTapMatch;
+      }
+
       selected.used = true;
       const asynchrony = selected.tap.timeMs - beat.expectedTimeMs;
 

@@ -90,8 +90,10 @@ export const generateGrid = (options: GenerateGridOptions, rng: Rng): GeneratedG
       }
     }
 
-    const fallbackColor = palette.find((entry) => !rule.predicate({ color: entry, shape: shapes[0] })) ?? palette[0];
-    const fallbackShape = shapes.find((entry) => !rule.predicate({ color: fallbackColor, shape: entry })) ?? shapes[0];
+    const fallbackColor =
+      palette.find((entry) => !rule.predicate({ color: entry, shape: shapes[0] })) ?? palette[0]!;
+    const fallbackShape =
+      shapes.find((entry) => !rule.predicate({ color: fallbackColor, shape: entry })) ?? shapes[0]!;
 
     if (rule.predicate({ color: fallbackColor, shape: fallbackShape })) {
       throw new Error('Unable to produce distractor that does not satisfy target rule');
@@ -101,9 +103,10 @@ export const generateGrid = (options: GenerateGridOptions, rng: Rng): GeneratedG
   };
 
   const provisionalCells: Array<Omit<Cell, 'id'>> = [];
+  const targetComboFallback = targetCombos[0]!;
 
   for (let index = 0; index < targetCount; index += 1) {
-    const preset = targetCombos[index % targetCombos.length];
+    const preset = targetCombos[index % targetCombos.length] ?? targetComboFallback;
     provisionalCells.push({ color: preset.color, shape: preset.shape, isTarget: true });
   }
 

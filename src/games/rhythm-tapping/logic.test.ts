@@ -7,6 +7,7 @@ import {
   computeAsynchronyMetrics,
   DEFAULT_BEAT_TOLERANCE_MS,
   type Beat,
+  type BeatTapMatch,
   type Tap
 } from './logic';
 
@@ -56,7 +57,7 @@ describe('rhythm tapping logic helpers', () => {
   });
 
   it('computes mean, RMS, std dev, and outlier rate for matched asynchronies', () => {
-    const matches = [
+    const matches: BeatTapMatch[] = [
       {
         beat: { index: 0, actualTimeMs: 0, expectedTimeMs: 0 },
         tap: { timeMs: 10, source: 'keyboard' },

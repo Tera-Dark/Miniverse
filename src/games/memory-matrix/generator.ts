@@ -44,8 +44,13 @@ export const generatePattern = (options: GeneratePatternOptions): MemoryPattern 
   const chosen: MemoryCellPosition[] = [];
 
   const chooseFromPool = (pool: number[]): number => {
+    if (pool.length === 0) {
+      throw new Error('Cannot choose from an empty pool');
+    }
+
     const pickIndex = Math.floor(rngInstance.next() * pool.length);
-    return pool[pickIndex] ?? pool[0];
+    const fallback = pool[0]!;
+    return pool[pickIndex] ?? fallback;
   };
 
   while (chosen.length < patternLength) {
