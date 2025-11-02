@@ -25,6 +25,13 @@ export const gamesRegistry: GameDefinition[] = [
     description: '观察矩阵中的点亮图案并在隐藏后完整复现，训练工作记忆与空间定位能力。',
     accentColor: '#a855f7',
     loader: () => import('./memory-matrix').then((module) => module.default)
+  },
+  {
+    id: 'stop-signal',
+    title: '停止信号任务（SST）',
+    description: '自适应停止信号延迟的抑制控制测验，输出 SSRT 与停止成功率。',
+    accentColor: '#f472b6',
+    loader: () => import('./stop-signal').then((module) => module.default)
   }
 ];
 

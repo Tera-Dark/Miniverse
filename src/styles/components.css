@@ -765,3 +765,351 @@
   background: color-mix(in srgb, var(--color-primary) 35%, transparent);
   box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--color-primary) 70%, transparent);
 }
+
+.stop-signal {
+  display: grid;
+  gap: 1.5rem;
+  --stop-signal-accent: color-mix(in srgb, var(--color-primary) 18%, transparent);
+  --stop-signal-stop-color: hsl(350 88% 62%);
+}
+
+.stop-signal--high-contrast {
+  --stop-signal-accent: color-mix(in srgb, var(--color-primary) 38%, transparent);
+  --stop-signal-stop-color: hsl(350 92% 54%);
+}
+
+.stop-signal__intro {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.stop-signal__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.stop-signal__description {
+  margin: 0;
+  max-width: 52ch;
+  color: var(--color-text-muted);
+}
+
+.stop-signal__settings {
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+.stop-signal__fields {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .stop-signal__fields {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.stop-signal__field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.stop-signal__label {
+  display: grid;
+  gap: 0.35rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.stop-signal__label input {
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 0.7rem;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 30%, transparent);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.stop-signal__field-note {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.stop-signal__toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.stop-signal__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.stop-signal__toggle input {
+  accent-color: var(--color-primary);
+}
+
+.stop-signal__presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stop-signal__presets-label {
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.stop-signal__presets-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.stop-signal__preset {
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: none;
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--transition-base), background var(--transition-base), box-shadow var(--transition-base);
+  box-shadow: var(--shadow-subtle);
+}
+
+.stop-signal__preset:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.stop-signal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.stop-signal__skip {
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-weight: 600;
+  cursor: pointer;
+  justify-self: flex-start;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-primary) 45%, transparent);
+}
+
+.stop-signal__progress-wrapper {
+  display: grid;
+}
+
+.stop-signal__progress-track {
+  position: relative;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  overflow: hidden;
+}
+
+.stop-signal__progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(130deg, var(--color-primary), var(--color-primary-soft));
+  transition: width var(--transition-base);
+}
+
+.stop-signal__hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.stop-signal__metric {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  box-shadow: var(--shadow-subtle);
+}
+
+.stop-signal__metric-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.stop-signal__metric-value {
+  font-size: 1.2rem;
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+}
+
+.stop-signal__stage {
+  position: relative;
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-lg);
+  background: var(--stop-signal-accent);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.stop-signal__stimulus {
+  font-size: clamp(4rem, 10vw, 6rem);
+  font-weight: 700;
+  color: var(--color-text);
+  text-shadow: 0 12px 32px color-mix(in srgb, #000 25%, transparent);
+}
+
+.stop-signal__stop-cue {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  gap: 0.4rem;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--stop-signal-stop-color) 35%, transparent);
+  backdrop-filter: blur(2px);
+  color: #ffffff;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+
+.stop-signal__stop-cue span {
+  font-size: clamp(3rem, 8vw, 4.5rem);
+  line-height: 1;
+}
+
+.stop-signal__stop-cue small {
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.stop-signal__stop-cue.is-visible {
+  opacity: 1;
+}
+
+.stop-signal__responses {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stop-signal__response {
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.5rem;
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform var(--transition-base), background var(--transition-base), box-shadow var(--transition-base);
+  box-shadow: var(--shadow-subtle);
+}
+
+.stop-signal__response:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.stop-signal__response:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.stop-signal--large-buttons .stop-signal__response {
+  padding: 1rem 2.2rem;
+  font-size: 1.35rem;
+}
+
+.stop-signal__status {
+  margin: 0;
+  min-height: 1.6rem;
+  color: var(--color-text-muted);
+}
+
+.stop-signal__summary {
+  display: grid;
+  gap: 0.75rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  box-shadow: var(--shadow-subtle);
+}
+
+.stop-signal__summary-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.stop-signal__summary-grid {
+  display: grid;
+  gap: 0.4rem 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.stop-signal__summary-grid dt {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.stop-signal__summary-grid dd {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.stop-signal__summary-hint {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.stop-signal--high-contrast .stop-signal__stage {
+  background: linear-gradient(135deg, var(--stop-signal-stop-color), hsl(230 82% 56%));
+}
+
+.stop-signal--high-contrast .stop-signal__stimulus {
+  color: #ffffff;
+  text-shadow: none;
+}
+
+.stop-signal--high-contrast .stop-signal__response {
+  background: linear-gradient(130deg, var(--color-primary), var(--color-primary-soft));
+  color: var(--color-surface);
+  box-shadow: var(--shadow-soft);
+}
