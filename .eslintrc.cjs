@@ -8,16 +8,26 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true
+    }
   },
-  plugins: ['@typescript-eslint', 'import'],
+  plugins: ['@typescript-eslint', 'import', 'react', 'react-hooks'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/recommended',
     'plugin:import/typescript',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
     'prettier'
   ],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   rules: {
     'import/order': [
       'warn',
@@ -36,6 +46,8 @@ module.exports = {
       {
         argsIgnorePattern: '^_'
       }
-    ]
+    ],
+    'react/react-in-jsx-scope': 'off',
+    'react/jsx-uses-react': 'off'
   }
 };
