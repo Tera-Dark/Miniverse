@@ -1,6 +1,6 @@
 import type { GameMeta, GameModule } from '../types';
-import { createSeededRng } from './rng';
 import { generateGrid, type GenerateGridOptions, type GeneratedGrid } from './generator';
+import { createSeededRng } from './rng';
 import type { Cell, Color, Shape, SimilarityLevel, TargetRuleDefinition } from './types';
 
 interface ColorInfo {

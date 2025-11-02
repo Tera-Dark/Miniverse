@@ -454,10 +454,7 @@ const rhythmTappingGame: GameModule = (() => {
 
   let latencyInput: HTMLInputElement | null = null;
   let customBpmInput: HTMLInputElement | null = null;
-  let audioToggle: HTMLInputElement | null = null;
-  let visualToggle: HTMLInputElement | null = null;
   let hapticsToggle: HTMLInputElement | null = null;
-  let contrastToggle: HTMLInputElement | null = null;
 
   const presetButtons = new Map<PresetId, HTMLButtonElement>();
 
@@ -1240,14 +1237,14 @@ const rhythmTappingGame: GameModule = (() => {
       return checkbox;
     };
 
-    audioToggle = createToggle('启用音频节拍', audioEnabled, (value) => {
+    createToggle('启用音频节拍', audioEnabled, (value) => {
       audioEnabled = value;
       updateAudioGain();
       setContainerModeFlags();
       updateStatus(value ? '节拍音效已开启。' : '节拍音效已关闭，可使用纯视觉模式。');
     });
 
-    visualToggle = createToggle('启用视觉脉冲', visualEnabled, (value) => {
+    createToggle('启用视觉脉冲', visualEnabled, (value) => {
       visualEnabled = value;
       setContainerModeFlags();
       updateStatus(value ? '视觉节奏指示已开启。' : '视觉指示已关闭，当前为音频模式。');
@@ -1267,7 +1264,7 @@ const rhythmTappingGame: GameModule = (() => {
       hapticsToggle.disabled = true;
     }
 
-    contrastToggle = createToggle('高对比模式', highContrastEnabled, (value) => {
+    createToggle('高对比模式', highContrastEnabled, (value) => {
       highContrastEnabled = value;
       setContainerModeFlags();
     });
@@ -1397,10 +1394,7 @@ const rhythmTappingGame: GameModule = (() => {
     resetButton = null;
     latencyInput = null;
     customBpmInput = null;
-    audioToggle = null;
-    visualToggle = null;
     hapticsToggle = null;
-    contrastToggle = null;
     presetButtons.clear();
     sessionResults = [];
 

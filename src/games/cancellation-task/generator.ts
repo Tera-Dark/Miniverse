@@ -1,5 +1,5 @@
-import type { Cell, Color, Shape, SimilarityLevel, TargetRuleDefinition } from './types';
 import type { Rng } from './rng';
+import type { Cell, Color, Shape, SimilarityLevel, TargetRuleDefinition } from './types';
 
 export interface GenerateGridOptions {
   size: number;

@@ -234,7 +234,7 @@ const stopSignalGame: GameModule = (() => {
 
   let tonePlayer: TonePlayer | null = null;
 
-  let settings: GameSettings = { ...defaultSettings };
+  const settings: GameSettings = { ...defaultSettings };
 
   let practiceSequence: TrialDefinition[] = [];
   let mainSequence: TrialDefinition[] = [];
