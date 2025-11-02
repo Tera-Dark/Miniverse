@@ -1,0 +1,290 @@
+name: Verify
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  CI: true
+
+jobs:
+  verify:
+    name: Verify project health
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        id: install
+        continue-on-error: true
+        run: |
+          mkdir -p reports
+          rm -f reports/.failed
+          start=$(date +%s)
+          set -o pipefail
+          if npm ci 2>&1 | tee reports/install.log; then
+            status="passed"
+            exit_code=0
+          else
+            status="failed"
+            exit_code=$?
+            touch reports/.failed
+          fi
+          end=$(date +%s)
+          duration=$(( end - start ))
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          echo "duration=${duration}" >> "$GITHUB_OUTPUT"
+          exit $exit_code
+
+      - name: Lint
+        id: lint
+        continue-on-error: true
+        run: |
+          mkdir -p reports
+          if [ -f reports/.failed ]; then
+            echo "status=skipped" >> "$GITHUB_OUTPUT"
+            echo "duration=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          start=$(date +%s)
+          set -o pipefail
+          if npm run lint 2>&1 | tee reports/lint.log; then
+            status="passed"
+            exit_code=0
+          else
+            status="failed"
+            exit_code=$?
+            touch reports/.failed
+          fi
+          end=$(date +%s)
+          duration=$(( end - start ))
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          echo "duration=${duration}" >> "$GITHUB_OUTPUT"
+          exit $exit_code
+
+      - name: Typecheck
+        id: typecheck
+        continue-on-error: true
+        run: |
+          mkdir -p reports
+          if [ -f reports/.failed ]; then
+            echo "status=skipped" >> "$GITHUB_OUTPUT"
+            echo "duration=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          start=$(date +%s)
+          set -o pipefail
+          if npm run typecheck 2>&1 | tee reports/typecheck.log; then
+            status="passed"
+            exit_code=0
+          else
+            status="failed"
+            exit_code=$?
+            touch reports/.failed
+          fi
+          end=$(date +%s)
+          duration=$(( end - start ))
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          echo "duration=${duration}" >> "$GITHUB_OUTPUT"
+          exit $exit_code
+
+      - name: Test
+        id: test
+        continue-on-error: true
+        run: |
+          mkdir -p reports
+          if [ -f reports/.failed ]; then
+            echo "status=skipped" >> "$GITHUB_OUTPUT"
+            echo "duration=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          start=$(date +%s)
+          set -o pipefail
+          if npm test -- --run 2>&1 | tee reports/test.log; then
+            status="passed"
+            exit_code=0
+          else
+            status="failed"
+            exit_code=$?
+            touch reports/.failed
+          fi
+          end=$(date +%s)
+          duration=$(( end - start ))
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          echo "duration=${duration}" >> "$GITHUB_OUTPUT"
+          exit $exit_code
+
+      - name: Build
+        id: build
+        continue-on-error: true
+        run: |
+          mkdir -p reports
+          if [ -f reports/.failed ]; then
+            echo "status=skipped" >> "$GITHUB_OUTPUT"
+            echo "duration=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          start=$(date +%s)
+          set -o pipefail
+          if npm run build 2>&1 | tee reports/build.log; then
+            status="passed"
+            exit_code=0
+          else
+            status="failed"
+            exit_code=$?
+            touch reports/.failed
+          fi
+          end=$(date +%s)
+          duration=$(( end - start ))
+          echo "status=${status}" >> "$GITHUB_OUTPUT"
+          echo "duration=${duration}" >> "$GITHUB_OUTPUT"
+          exit $exit_code
+
+      - name: Upload verification artifacts
+        if: ${{ always() && (steps.install.outputs.status == 'failed' || steps.lint.outputs.status == 'failed' || steps.typecheck.outputs.status == 'failed' || steps.test.outputs.status == 'failed' || steps.build.outputs.status == 'failed') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: verify-artifacts
+          path: |
+            reports/
+            coverage/
+            dist/
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Post verification summary
+        if: ${{ always() && github.event_name == 'pull_request' }}
+        uses: actions/github-script@v7
+        env:
+          INSTALL_STATUS: ${{ steps.install.outputs.status }}
+          INSTALL_DURATION: ${{ steps.install.outputs.duration }}
+          LINT_STATUS: ${{ steps.lint.outputs.status }}
+          LINT_DURATION: ${{ steps.lint.outputs.duration }}
+          TYPECHECK_STATUS: ${{ steps.typecheck.outputs.status }}
+          TYPECHECK_DURATION: ${{ steps.typecheck.outputs.duration }}
+          TEST_STATUS: ${{ steps.test.outputs.status }}
+          TEST_DURATION: ${{ steps.test.outputs.duration }}
+          BUILD_STATUS: ${{ steps.build.outputs.status }}
+          BUILD_DURATION: ${{ steps.build.outputs.duration }}
+        with:
+          script: |
+            const stepsSummary = [
+              { key: 'install', name: 'Install', status: process.env.INSTALL_STATUS },
+              { key: 'lint', name: 'Lint', status: process.env.LINT_STATUS },
+              { key: 'typecheck', name: 'Typecheck', status: process.env.TYPECHECK_STATUS },
+              { key: 'test', name: 'Test', status: process.env.TEST_STATUS },
+              { key: 'build', name: 'Build', status: process.env.BUILD_STATUS }
+            ].map((entry, index) => ({
+              ...entry,
+              duration: Number([
+                process.env.INSTALL_DURATION,
+                process.env.LINT_DURATION,
+                process.env.TYPECHECK_DURATION,
+                process.env.TEST_DURATION,
+                process.env.BUILD_DURATION
+              ][index] || 0)
+            }));
+
+            const normalizeStatus = (status) => {
+              if (!status) return 'skipped';
+              return status.toLowerCase();
+            };
+
+            const formatStatus = (status) => status.charAt(0).toUpperCase() + status.slice(1);
+
+            const statusIcon = (status) => {
+              switch (status) {
+                case 'passed':
+                  return '✅';
+                case 'failed':
+                  return '❌';
+                default:
+                  return '⏭️';
+              }
+            };
+
+            const formatDuration = (seconds) => {
+              if (!Number.isFinite(seconds) || seconds <= 0) {
+                return '0s';
+              }
+              if (seconds < 60) {
+                return `${seconds.toFixed(seconds >= 10 ? 1 : 2)}s`;
+              }
+              const minutes = Math.floor(seconds / 60);
+              const remainder = Math.round(seconds - minutes * 60);
+              return remainder > 0 ? `${minutes}m ${remainder}s` : `${minutes}m`;
+            };
+
+            const normalized = stepsSummary.map((step) => ({
+              ...step,
+              status: normalizeStatus(step.status),
+              duration: Math.max(0, step.duration)
+            }));
+
+            const failedCount = normalized.filter((step) => step.status === 'failed').length;
+            const overallIcon = failedCount === 0 ? '✅' : '❌';
+            const overallText = failedCount === 0 ? 'All checks passed' : `${failedCount} check(s) failed`;
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            let table = '| Step | Status | Duration |\n| --- | --- | --- |\n';
+            for (const step of normalized) {
+              table += `| ${step.name} | ${statusIcon(step.status)} ${formatStatus(step.status)} | ${formatDuration(step.duration)} |\n`;
+            }
+
+            const commentHeader = '### Verify Workflow Summary';
+            const body = `${commentHeader}\n\n${overallIcon} **${overallText}** ([View run](${runUrl}))\n\n${table}`;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100
+            });
+
+            const existing = comments.find((comment) => comment.user?.login === 'github-actions[bot]' && comment.body?.includes(commentHeader));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body
+              });
+            }
+
+      - name: Enforce verification status
+        if: ${{ always() }}
+        run: |
+          failures=0
+          for status in "${{ steps.install.outputs.status }}" "${{ steps.lint.outputs.status }}" "${{ steps.typecheck.outputs.status }}" "${{ steps.test.outputs.status }}" "${{ steps.build.outputs.status }}"; do
+            if [ "$status" = "failed" ]; then
+              failures=$((failures + 1))
+            fi
+          done
+          if [ "$failures" -gt 0 ]; then
+            echo "$failures verification step(s) failed."
+            exit 1
+          fi
