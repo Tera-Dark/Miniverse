@@ -32,6 +32,13 @@ export const gamesRegistry: GameDefinition[] = [
     description: '自适应停止信号延迟的抑制控制测验，输出 SSRT 与停止成功率。',
     accentColor: '#f472b6',
     loader: () => import('./stop-signal').then((module) => module.default)
+  },
+  {
+    id: 'rhythm-tapping',
+    title: '节奏同步：节拍敲击',
+    description: '跟随节拍器敲击保持同步，测量节奏平均偏移、RMS 误差与稳定性指标。',
+    accentColor: '#facc15',
+    loader: () => import('./rhythm-tapping').then((module) => module.default)
   }
 ];
 
