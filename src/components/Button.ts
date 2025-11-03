@@ -47,9 +47,8 @@ export const createButton = (options: ButtonOptions): ButtonElement => {
 
   if (element instanceof HTMLButtonElement) {
     element.type = type;
-  } else if (href) {
-    element.href = href;
-    element.setAttribute('role', 'button');
+  } else if (element instanceof HTMLAnchorElement && href) {
+    element.setAttribute('href', href);
   }
 
   if (onClick) {

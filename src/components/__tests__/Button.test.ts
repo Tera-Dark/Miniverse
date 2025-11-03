@@ -11,6 +11,7 @@ describe('createButton', () => {
 
     expect(button).toBeInTheDocument();
     expect(button).toHaveClass('button', 'button--secondary');
+    expect(button.getAttribute('role') ?? 'button').toBe('button');
   });
 
   it('renders a link-styled button when href is provided', () => {
@@ -21,5 +22,6 @@ describe('createButton', () => {
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute('href', '/docs');
     expect(link).toHaveClass('button', 'button--ghost');
+    expect(link).not.toHaveAttribute('role');
   });
 });
