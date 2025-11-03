@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
-import { generateGrid } from './generator';
+import { generateGrid, type GenerateGridOptions } from './generator';
 import { createSeededRng } from './rng';
-import type { Color, Shape, TargetRuleDefinition } from './types';
+import type { Color, Shape, SimilarityLevel, TargetRuleDefinition } from './types';
 
 describe('generateGrid', () => {
   const rule: TargetRuleDefinition = {
@@ -15,6 +15,8 @@ describe('generateGrid', () => {
 
   const palette: Color[] = ['rose', 'sky', 'emerald', 'amber'];
   const shapes: Shape[] = ['triangle', 'circle', 'square'];
+  const mixedSimilarity: SimilarityLevel = 'mixed';
+  const mimicSimilarity: SimilarityLevel = 'mimic';
 
   it('Produces the expected number of cells and targets', () => {
     const rng = createSeededRng('unit-test');
@@ -28,7 +30,7 @@ describe('generateGrid', () => {
           palette,
           shapes,
           rule,
-          similarity: 'mixed'
+          similarity: mixedSimilarity
         },
         rng
       );
@@ -49,14 +51,14 @@ describe('generateGrid', () => {
   });
 
   it('is reproducible with the same seed', () => {
-    const options = {
+    const options: GenerateGridOptions = {
       size: 6,
       minTargets: 8,
       maxTargets: 10,
       palette,
       shapes,
       rule,
-      similarity: 'mimic'
+      similarity: mimicSimilarity
     };
 
     const gridA = generateGrid(options, createSeededRng(42));
