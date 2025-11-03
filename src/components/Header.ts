@@ -1,10 +1,6 @@
-interface NavLink {
-  label: string;
-  path: string;
-}
+import { NAV_ITEMS } from '@/app/nav';
 
 interface HeaderOptions {
-  links: NavLink[];
   themeToggle: HTMLElement;
 }
 
@@ -52,7 +48,7 @@ export const createHeader = (options: HeaderOptions): HeaderInstance => {
 
   const anchors: Array<{ node: HTMLAnchorElement; path: string }> = [];
 
-  options.links.forEach((link) => {
+  NAV_ITEMS.forEach((link) => {
     const anchor = document.createElement('a');
     anchor.className = 'app-nav__link';
     const normalized = normalizePath(link.path);
