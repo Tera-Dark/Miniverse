@@ -1,4 +1,4 @@
-import { createSeededRng, type Rng } from '../cancellation-task/rng';
+import { type Rng, createSeededRng } from '../cancellation-task/rng';
 import type { MemoryCellPosition, MemoryMatrixConfig, MemoryPattern } from './types';
 
 export interface GeneratePatternOptions extends MemoryMatrixConfig {

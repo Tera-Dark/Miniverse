@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from 'node:url';
-
 import { defineConfig } from 'vite';
 
 const repository = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? '';
