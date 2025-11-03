@@ -26,7 +26,7 @@ npm run verify:ci
 
 ## Testing
 
-The project uses [Vitest](https://vitest.dev) with the DOM Testing Library and `@testing-library/jest-dom` extensions. The shared setup in `src/test/setupTests.ts` registers the matchers and performs automatic cleanup after each test so that DOM helpers such as `screen`, `toBeInTheDocument`, and `toHaveClass` are available globally.
+The project uses [Vitest](https://vitest.dev) with the DOM Testing Library and `@testing-library/jest-dom` extensions. The shared setup in `src/test/setup.ts` registers the matchers and performs automatic cleanup after each test so that DOM helpers such as `screen`, `toBeInTheDocument`, and `toHaveClass` are available globally.
 
 - Run the entire suite once with:
 
