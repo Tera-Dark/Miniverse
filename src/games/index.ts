@@ -7,6 +7,7 @@ const registry = [
     description: '在彩色图形矩阵中找出所有符合规则的目标，训练视觉搜索与抑制干扰能力。',
     accentColor: '#f97316',
     tags: ['注意力训练', '视觉搜索', '干扰抑制'],
+    categories: ['attention'],
     difficultyPresets: [
       { id: 'easy', label: '轻松 5×5', description: '较少干扰，适合热身。' },
       { id: 'normal', label: '标准 6×6', description: '干扰更多，需要更快的检索速度。' },
@@ -20,6 +21,7 @@ const registry = [
     description: '通过不同难度的舒尔特方格锻炼专注力与视线速度。',
     accentColor: '#38bdf8',
     tags: ['专注力', '视线速度', '数字搜索'],
+    categories: ['attention', 'speed'],
     difficultyPresets: [
       { id: 'focus', label: '入门 4×4', description: '熟悉节奏，范围更小，适合热身。' },
       { id: 'classic', label: '标准 5×5', description: '经典舒尔特方格，训练视线搜索与专注。' },
@@ -33,6 +35,7 @@ const registry = [
     description: '观察矩阵中的点亮图案并在隐藏后完整复现，训练工作记忆与空间定位能力。',
     accentColor: '#a855f7',
     tags: ['工作记忆', '空间定位', '逐步挑战'],
+    categories: ['memory'],
     difficultyPresets: [
       { id: 'easy', label: '轻松 3×3', description: '短暂展示 3 个目标格，适合快速热身。' },
       { id: 'normal', label: '标准 4×4', description: '4×4 网格中记忆 5 个位置，挑战稳定的工作记忆。' },
@@ -47,6 +50,7 @@ const registry = [
     description: '自适应停止信号延迟的抑制控制测验，输出 SSRT 与停止成功率。',
     accentColor: '#f472b6',
     tags: ['抑制控制', '反应时间', '神经心理'],
+    categories: ['attention', 'speed'],
     difficultyPresets: [
       { id: 'balanced', label: '标准 120 试次', description: '默认阶梯调整与练习阶段，获取稳定的 SSRT 指标。' },
       { id: 'compact', label: '快速 60 试次', description: '缩短试次数量，适合课堂或快速筛查。' },
@@ -60,6 +64,7 @@ const registry = [
     description: '跟随节拍器敲击保持同步，测量节奏平均偏移、RMS 误差与稳定性指标。',
     accentColor: '#facc15',
     tags: ['节奏同步', '感知运动', '时间判断'],
+    categories: ['speed'],
     difficultyPresets: [
       { id: 'easy', label: '轻松 · 90 BPM', description: '舒缓速度，适合热身与初学者。' },
       { id: 'normal', label: '标准 · 120 BPM', description: '常见的流行节奏，训练稳定同步。' },

@@ -6,12 +6,15 @@ export interface GameDifficultyPreset {
 
 export type GameTag = string;
 
+export type GameCategory = 'attention' | 'memory' | 'speed';
+
 export interface GameMeta {
   id: string;
   title: string;
   description: string;
   accentColor: string;
   tags?: GameTag[];
+  categories?: GameCategory[];
   difficultyPresets?: GameDifficultyPreset[];
 }
 
