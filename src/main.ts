@@ -104,7 +104,7 @@ const createThemeController = (): ThemeController => {
   };
 };
 
-const initializeShell = (navigationLinks: Array<{ label: string; path: string }>) => {
+const initializeShell = () => {
   const root = document.querySelector<HTMLDivElement>('#app');
 
   if (!root) {
@@ -119,7 +119,6 @@ const initializeShell = (navigationLinks: Array<{ label: string; path: string }>
   themeController.subscribe((mode) => themeToggle.setTheme(mode));
 
   const header = createHeader({
-    links: navigationLinks,
     themeToggle: themeToggle.element
   });
 
@@ -465,17 +464,6 @@ const renderGameDetail = (target: HTMLElement, definition: GameDefinition): (() 
   };
 };
 
-const buildNavigationLinks = (
-  games: RegisteredGameMeta[]
-): Array<{ label: string; path: string }> => [
-  { label: '首页', path: '/' },
-  { label: '小游戏', path: gamesIndexPath },
-  ...games.map((game) => ({
-    label: game.title,
-    path: getGamePath(game.id)
-  }))
-];
-
 const renderNotFound = (target: HTMLElement): (() => void) => {
   target.innerHTML = '';
 
@@ -503,8 +491,7 @@ const renderNotFound = (target: HTMLElement): (() => void) => {
 
 const bootstrap = () => {
   const gamesCatalog = listGames();
-  const navigationLinks = buildNavigationLinks(gamesCatalog);
-  const { main, header } = initializeShell(navigationLinks);
+  const { main, header } = initializeShell();
 
   const router = new HashRouter();
 
