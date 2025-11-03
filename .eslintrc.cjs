@@ -26,6 +26,14 @@ module.exports = {
   settings: {
     react: {
       version: 'detect'
+    },
+    'import/resolver': {
+      typescript: {
+        project: './tsconfig.json'
+      },
+      node: {
+        extensions: ['.ts', '.tsx', '.js', '.cjs', '.mjs']
+      }
     }
   },
   rules: {
