@@ -40,6 +40,12 @@ module.exports = {
         groups: [['builtin', 'external'], 'internal', ['parent', 'sibling', 'index']]
       }
     ],
+    'import/no-unresolved': [
+      'error',
+      {
+        ignore: ['^@/']
+      }
+    ],
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-unused-vars': [
       'warn',
