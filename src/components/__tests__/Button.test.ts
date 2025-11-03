@@ -1,11 +1,11 @@
 import { screen } from '@testing-library/dom';
 
 import { createButton } from '@/components/Button';
-import { renderComponent } from '@/test/test-utils';
+import { render } from '@/test/test-utils';
 
 describe('createButton', () => {
   it('renders a button with the provided label and variant', () => {
-    renderComponent(() => createButton({ label: 'Start Session', variant: 'secondary' }));
+    render(createButton({ label: 'Start Session', variant: 'secondary' }));
 
     const button = screen.getByRole('button', { name: 'Start Session' });
 
@@ -14,7 +14,7 @@ describe('createButton', () => {
   });
 
   it('renders a link-styled button when href is provided', () => {
-    renderComponent(() => createButton({ label: 'View Docs', href: '/docs', variant: 'ghost' }));
+    render(createButton({ label: 'View Docs', href: '/docs', variant: 'ghost' }));
 
     const link = screen.getByRole('link', { name: 'View Docs' });
 

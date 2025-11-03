@@ -1,18 +1,33 @@
-import { render } from '@testing-library/dom';
+import { getQueriesForElement, prettyDOM } from '@testing-library/dom';
 
-type RenderOptions = Parameters<typeof render>[1];
-type RenderResult = ReturnType<typeof render>;
-
-export const renderElement = (element: HTMLElement, options?: RenderOptions): RenderResult => {
-  return render(element, options);
+type RenderResult = ReturnType<typeof getQueriesForElement> & {
+  container: HTMLElement;
+  prettyDOM: typeof prettyDOM;
 };
 
-export const renderComponent = (factory: () => HTMLElement, options?: RenderOptions): RenderResult => {
-  return renderElement(factory(), options);
-};
+type RenderInput = string | Node;
 
-export const createDomHost = (): HTMLElement => {
+export function render(ui: RenderInput): RenderResult {
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+
+  if (typeof ui === 'string') {
+    container.innerHTML = ui;
+  } else {
+    container.appendChild(ui);
+  }
+
+  const queries = getQueriesForElement(container);
+
+  return {
+    container,
+    prettyDOM,
+    ...queries
+  };
+}
+
+export function createDomHost(): HTMLElement {
   const host = document.createElement('div');
   document.body.appendChild(host);
   return host;
-};
+}
