@@ -6,6 +6,9 @@
   font-weight: 600;
   border-radius: calc(var(--radius-sm) + 4px);
   padding: 0.65rem 1.25rem;
+  min-height: 48px;
+  min-width: 48px;
+  font-size: var(--font-size-sm);
   transition: transform var(--transition-base), box-shadow var(--transition-base),
     background var(--transition-base), color var(--transition-base);
   box-shadow: var(--shadow-subtle);

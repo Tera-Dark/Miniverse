@@ -1,6 +1,7 @@
 import './styles/base.css';
 import './styles/components.css';
 import './styles/layout.css';
+import './styles/games.css';
 import './theme.css';
 
 import { createButton } from './components/Button';
@@ -15,6 +16,7 @@ import {
   isGameId,
   listGames
 } from './games';
+import { mountGamesHub } from './games/hub';
 import type { GameDefinition, RegisteredGameMeta } from './games';
 import type { GameMeta, GameModule } from './games/types';
 import { HashRouter } from './router';
@@ -254,50 +256,6 @@ const renderHome = (target: HTMLElement, games: RegisteredGameMeta[]): (() => vo
   };
 };
 
-const renderGamesList = (target: HTMLElement, games: RegisteredGameMeta[]): (() => void) => {
-  target.innerHTML = '';
-
-  const heading = document.createElement('h1');
-  heading.className = 'section-title';
-  heading.textContent = '全部小游戏';
-
-  const lead = document.createElement('p');
-  lead.className = 'lead';
-  lead.textContent = '挑选一个世界进入，所有小游戏都轻量快速，随开即玩。';
-
-  const grid = document.createElement('div');
-  grid.className = 'cards-grid';
-
-  if (games.length === 0) {
-    const empty = document.createElement('p');
-    empty.className = 'lead';
-    empty.textContent = '小游戏列表还在加载中，请稍后再来探索新的灵感！';
-    target.append(heading, lead, empty);
-  } else {
-    games.forEach((game) => {
-      const card = createCard({
-        title: game.title,
-        description: game.description,
-        accentColor: game.accentColor,
-        footerActions: [
-          createButton({
-            label: '进入世界',
-            href: `#${getGamePath(game.id)}`,
-            trailingIcon: '→'
-          })
-        ]
-      });
-
-      grid.appendChild(card);
-    });
-
-    target.append(heading, lead, grid);
-  }
-
-  return () => {
-    target.innerHTML = '';
-  };
-};
 
 const renderGameDetail = (target: HTMLElement, definition: GameDefinition): (() => void) => {
   target.innerHTML = '';
@@ -496,7 +454,7 @@ const bootstrap = () => {
   const router = new HashRouter();
 
   router.register('/', () => renderHome(main, gamesCatalog));
-  router.register(gamesIndexPath, () => renderGamesList(main, gamesCatalog));
+  router.register(gamesIndexPath, () => mountGamesHub(main, gamesCatalog));
   router.register('/games/:id', ({ params }) => {
     const candidate = params.id;
 

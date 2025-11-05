@@ -1,0 +1,18 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="stop-bg" x1="12%" y1="15%" x2="88%" y2="85%">
+      <stop offset="0" stop-color="#ffe5f4" />
+      <stop offset="1" stop-color="#ffcee7" />
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#stop-bg)" />
+  <g transform="translate(28 20)">
+    <path d="M32 0l22.63 13.07v26.13L32 52.27 9.37 39.2V13.07L32 0z" fill="#f472b6" opacity="0.18" />
+    <g transform="translate(2 6)">
+      <rect x="20" y="4" width="8" height="50" rx="4" fill="#f472b6" />
+      <path d="M24 0l16.97 9.8v19.6L24 39.2 7.03 29.4V9.8L24 0z" fill="#f472b6" />
+      <text x="24" y="24" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">STOP</text>
+    </g>
+  </g>
+  <circle cx="92" cy="90" r="10" fill="#f472b6" opacity="0.5" />
+</svg>

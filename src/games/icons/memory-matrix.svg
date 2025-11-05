@@ -1,0 +1,20 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="memory-bg" x1="15%" y1="12%" x2="85%" y2="88%">
+      <stop offset="0" stop-color="#f3e8ff" />
+      <stop offset="1" stop-color="#e0c8ff" />
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#memory-bg)" />
+  <g transform="translate(28 24)">
+    <rect width="64" height="72" rx="18" fill="rgba(168,85,247,0.14)" />
+    <g fill="#a855f7">
+      <rect x="10" y="12" width="16" height="16" rx="6" />
+      <rect x="38" y="12" width="16" height="16" rx="6" opacity="0.6" />
+      <rect x="10" y="40" width="16" height="16" rx="6" opacity="0.6" />
+      <rect x="38" y="40" width="16" height="16" rx="6" />
+    </g>
+    <rect x="22" y="26" width="16" height="16" rx="6" fill="#d8b4fe" opacity="0.65" />
+  </g>
+  <path d="M82 34c10 4 18 13 18 26 0 15-11 26-25 26-10 0-17-5-22-12" stroke="#a855f7" stroke-width="6" stroke-linecap="round" opacity="0.5" />
+</svg>
