@@ -45,11 +45,6 @@ describe('navigation configuration', () => {
       value: matchMediaMock
     });
 
-    const originalScrollTo = window.scrollTo;
-    window.scrollTo = vi.fn().mockImplementation(
-      ((options?: ScrollToOptions | number, y?: number) => {}) as typeof window.scrollTo
-    );
-
     const focusSpy = vi.spyOn(HTMLElement.prototype, 'focus').mockImplementation(() => {});
 
     try {
@@ -76,12 +71,6 @@ describe('navigation configuration', () => {
         });
       } else {
         delete (window as { matchMedia?: typeof window.matchMedia }).matchMedia;
-      }
-
-      if (originalScrollTo) {
-        window.scrollTo = originalScrollTo;
-      } else {
-        delete (window as { scrollTo?: typeof window.scrollTo }).scrollTo;
       }
     }
   });
