@@ -40,7 +40,7 @@ describe('games hub', () => {
       window.matchMedia = originalMatchMedia.bind(window);
     } else {
       // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-      delete (window as typeof window & { matchMedia?: typeof window.matchMedia }).matchMedia;
+      delete (window as Partial<typeof window> & { matchMedia?: typeof window.matchMedia }).matchMedia;
     }
   });
 

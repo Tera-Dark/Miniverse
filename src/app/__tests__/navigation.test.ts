@@ -46,7 +46,9 @@ describe('navigation configuration', () => {
     });
 
     const originalScrollTo = window.scrollTo;
-    window.scrollTo = vi.fn();
+    window.scrollTo = vi.fn().mockImplementation(
+      ((options?: ScrollToOptions | number, y?: number) => {}) as typeof window.scrollTo
+    );
 
     const focusSpy = vi.spyOn(HTMLElement.prototype, 'focus').mockImplementation(() => {});
 
