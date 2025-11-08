@@ -11,7 +11,7 @@ export interface ThemeToggleInstance {
 }
 
 const buildTitle = (mode: ThemeMode): string =>
-  mode === 'dark' ? '切换到浅色模式' : '切换到深色模式';
+  mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
 
 export const createThemeToggle = (options: ThemeToggleOptions): ThemeToggleInstance => {
   const button = document.createElement('button');
@@ -23,10 +23,7 @@ export const createThemeToggle = (options: ThemeToggleOptions): ThemeToggleInsta
   icon.className = 'theme-toggle__icon';
   icon.setAttribute('aria-hidden', 'true');
 
-  const label = document.createElement('span');
-  label.className = 'theme-toggle__label';
-
-  button.append(icon, label);
+  button.appendChild(icon);
 
   let currentMode: ThemeMode = options.initial;
 
@@ -34,8 +31,7 @@ export const createThemeToggle = (options: ThemeToggleOptions): ThemeToggleInsta
     currentMode = mode;
     button.setAttribute('aria-pressed', mode === 'dark' ? 'true' : 'false');
     button.title = buildTitle(mode);
-    icon.textContent = mode === 'dark' ? '🌙' : '☀️';
-    label.textContent = mode === 'dark' ? '深色' : '浅色';
+    icon.textContent = mode === 'dark' ? 'moon' : 'sun';
   };
 
   button.addEventListener('click', () => {
