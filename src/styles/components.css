@@ -24,7 +24,7 @@
 }
 
 .button--primary {
-  background: linear-gradient(130deg, var(--color-primary), var(--color-primary-soft));
+  background: var(--gradient-accent);
 }
 
 .button--secondary {
@@ -315,7 +315,7 @@
 }
 
 .schulte-game__difficulty.is-active {
-  background: linear-gradient(130deg, var(--color-primary), var(--color-primary-soft));
+  background: var(--gradient-accent);
   color: var(--color-surface);
   box-shadow: var(--shadow-soft);
 }
@@ -404,7 +404,7 @@
 }
 
 .schulte-table__cell.is-cleared {
-  background: linear-gradient(130deg, var(--color-primary), var(--color-primary-soft));
+  background: var(--gradient-accent);
   color: var(--color-surface);
   box-shadow: none;
 }
@@ -590,8 +590,8 @@
 }
 
 .cancellation-cell.is-false-positive {
-  background: color-mix(in srgb, #ef4444 20%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, #ef4444 45%, transparent);
+  background: color-mix(in srgb, var(--color-error) 20%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-error) 45%, transparent);
 }
 
 .cancellation-cell.is-missed {
@@ -660,7 +660,7 @@
 }
 
 .memory-matrix__difficulty.is-active {
-  background: linear-gradient(130deg, var(--color-primary), var(--color-primary-soft));
+  background: var(--gradient-accent);
   color: var(--color-surface);
   box-shadow: var(--shadow-soft);
 }
@@ -800,26 +800,26 @@
 }
 
 .memory-matrix__cell--lit {
-  background: linear-gradient(130deg, var(--color-primary), var(--color-primary-soft));
+  background: var(--gradient-accent);
   color: var(--color-surface);
   box-shadow: var(--shadow-soft);
 }
 
 .memory-matrix__cell--correct {
-  background: linear-gradient(130deg, #22c55e, #16a34a);
-  color: #ffffff;
+  background: linear-gradient(130deg, var(--color-success), var(--color-success-soft));
+  color: var(--color-surface-inverse);
   box-shadow: var(--shadow-soft);
 }
 
 .memory-matrix__cell--missed {
-  background: linear-gradient(130deg, #f97316, #ea580c);
-  color: #ffffff;
+  background: linear-gradient(130deg, var(--color-warning), color-mix(in srgb, var(--color-warning) 85%, black));
+  color: var(--color-surface-inverse);
   box-shadow: var(--shadow-soft);
 }
 
 .memory-matrix__cell--extra {
-  background: linear-gradient(130deg, #ef4444, #dc2626);
-  color: #ffffff;
+  background: linear-gradient(130deg, var(--color-error), color-mix(in srgb, var(--color-error) 85%, black));
+  color: var(--color-surface-inverse);
   box-shadow: var(--shadow-soft);
 }
 
@@ -835,8 +835,8 @@
 }
 
 .memory-matrix[data-contrast='high'] .memory-matrix__cell--lit {
-  background: #ffffff;
-  color: #000000;
+  background: var(--color-surface);
+  color: var(--color-text);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 70%, transparent);
 }
 
@@ -1018,7 +1018,7 @@
 .stop-signal__progress-bar {
   height: 100%;
   width: 0%;
-  background: linear-gradient(130deg, var(--color-primary), var(--color-primary-soft));
+  background: var(--gradient-accent);
   transition: width var(--transition-base);
 }
 
@@ -1064,7 +1064,7 @@
   font-size: clamp(4rem, 10vw, 6rem);
   font-weight: 700;
   color: var(--color-text);
-  text-shadow: 0 12px 32px color-mix(in srgb, #000 25%, transparent);
+  text-shadow: 0 12px 32px var(--glass-shadow);
 }
 
 .stop-signal__stop-cue {
@@ -1076,7 +1076,7 @@
   border-radius: inherit;
   background: color-mix(in srgb, var(--stop-signal-stop-color) 35%, transparent);
   backdrop-filter: blur(2px);
-  color: #ffffff;
+  color: var(--color-surface);
   font-weight: 700;
   opacity: 0;
   transition: opacity var(--transition-base);
@@ -1183,12 +1183,12 @@
 }
 
 .stop-signal--high-contrast .stop-signal__stimulus {
-  color: #ffffff;
+  color: var(--color-surface);
   text-shadow: none;
 }
 
 .stop-signal--high-contrast .stop-signal__response {
-  background: linear-gradient(130deg, var(--color-primary), var(--color-primary-soft));
+  background: var(--gradient-accent);
   color: var(--color-surface);
   box-shadow: var(--shadow-soft);
 }

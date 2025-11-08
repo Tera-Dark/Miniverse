@@ -58,7 +58,7 @@
 .app-nav__link.is-active {
   background: color-mix(in srgb, var(--color-primary) 28%, transparent);
   color: var(--color-text);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 1px 0 var(--glass-border);
 }
 
 .app-main {
