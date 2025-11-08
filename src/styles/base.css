@@ -10,12 +10,15 @@ body {
 
 body {
   font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
   background: var(--color-background);
   color: var(--color-text);
   min-height: 100vh;
   transition: background var(--transition-base), color var(--transition-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -25,8 +28,9 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid var(--color-primary-soft);
-  outline-offset: 4px;
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
 }
 
 img {
@@ -42,7 +46,8 @@ button {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--color-primary) 28%, transparent);
+  background: color-mix(in srgb, var(--accent-from) 30%, transparent);
+  color: var(--color-text);
 }
 
 .visually-hidden {

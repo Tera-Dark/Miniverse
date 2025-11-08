@@ -97,7 +97,7 @@
 }
 
 .games-hub__chip.is-active {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-soft));
+  background: var(--gradient-accent);
   color: var(--color-surface);
   box-shadow: var(--shadow-subtle);
 }

@@ -1,56 +1,252 @@
+/* 
+ * Glass Design System Tokens
+ * 
+ * Centralized glassmorphism design tokens with warm-neutral palette,
+ * matte-black typography, accent gradients, glass effects (blur/opacity),
+ * spacing, radii, shadows, and motion tokens.
+ * 
+ * All tokens are mirrored for light/dark themes with appropriate inversions.
+ * 
+ * === TOKEN CHANGES FROM PREVIOUS VERSION ===
+ * 
+ * NEW TOKENS ADDED:
+ * - --font-mono: Monospace font stack for code/numeric values
+ * - --color-text-subtle: Additional text color level for subtle content
+ * - --color-border-subtle: Lighter border variant
+ * - --accent-from, --accent-to: Gradient color stops for accent gradients
+ * - --gradient-accent: Pre-built accent gradient (replaces inline gradients)
+ * - --color-success-soft, --color-warning, --color-error: Status colors
+ * - --blur-sm through --blur-2xl: Glass blur effect amounts
+ * - --glass-opacity-light/medium/heavy: Glass surface opacities
+ * - --glass-border: Border color for glass surfaces
+ * - --glass-shadow: Shadow color for glass effects
+ * - --shadow-xs, --shadow-sm through --shadow-2xl: Extended shadow scale (6 levels)
+ * - --space-4xl, --space-5xl: Extended spacing scale
+ * - --radius-2xl, --radius-3xl, --radius-circle: Extended radius scale
+ * - --font-size-base, --font-size-2xl through --font-size-5xl: Extended font scale
+ * - --font-weight-*: Named font weight tokens (light/normal/medium/semibold/bold/extrabold)
+ * - --letter-spacing-*: Letter spacing presets (tight/normal/wide/wider/widest)
+ * - --line-height-*: Line height presets (tight/snug/normal/relaxed/loose)
+ * - --duration-*: Motion duration tokens (instant/fast/base/slow/slower)
+ * - --ease-*: Motion easing functions (linear/in/out/in-out/bounce/smooth)
+ * - --focus-ring-width, --focus-ring-offset: Focus ring sizing tokens
+ * 
+ * RENAMED/CHANGED TOKENS:
+ * - Color palette shifted from purple tones to warm-neutral (beige/cream/charcoal)
+ * - --color-text: Now matte black (#1a1918) instead of purple-black (#1f1733)
+ * - --color-text-muted: Now warm gray (#5e5a57) instead of purple-muted (#5d517a)
+ * - --color-primary: Changed from #6f61f6 (purple) to #6366f1 (indigo)
+ * - --focus-ring-color: Now uses --accent-from instead of --color-primary-soft
+ * - --shadow-subtle, --shadow-soft: Now mapped to new shadow scale
+ * - --transition-base: Now uses new motion tokens (--duration-fast, --ease-in-out)
+ * - Font sizes slightly adjusted for better scale consistency
+ * 
+ * USAGE NOTES FOR FOLLOW-UP TICKETS:
+ * - Replace inline gradients like "linear-gradient(130deg, var(--color-primary), var(--color-primary-soft))"
+ *   with "var(--gradient-accent)" for consistency
+ * - Use --glass-* tokens when implementing glassmorphism surfaces
+ * - Use motion tokens (--duration-*, --ease-*) for all transitions/animations
+ * - Use typography scale tokens (--font-size-*, --font-weight-*, etc.) for text styling
+ * - Glass surfaces should use backdrop-filter: blur(var(--blur-lg)) with appropriate opacity
+ */
+
 :root {
   color-scheme: light;
-  --font-sans: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --color-background: #f7f5ff;
-  --color-surface: #ffffff;
-  --color-surface-subtle: #efe9ff;
-  --color-surface-inverse: #322c44;
-  --color-text: #1f1733;
-  --color-text-muted: #5d517a;
-  --color-border: rgba(68, 47, 122, 0.12);
-  --color-primary: #6f61f6;
-  --color-primary-soft: #8d7dfc;
-  --color-success: #4cc9a6;
-  --shadow-soft: 0 24px 50px rgba(123, 104, 238, 0.12), 0 4px 18px rgba(34, 21, 66, 0.08);
-  --shadow-subtle: 0 12px 24px rgba(31, 23, 51, 0.08);
-  --radius-xs: 8px;
-  --radius-sm: 10px;
-  --radius-md: 18px;
-  --radius-lg: 28px;
-  --radius-xl: 36px;
-  --radius-pill: 999px;
-  --space-3xs: 0.125rem;
-  --space-2xs: 0.25rem;
-  --space-xs: 0.5rem;
-  --space-sm: 0.75rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
-  --font-size-xs: 0.85rem;
-  --font-size-sm: 0.95rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.15rem;
-  --font-size-xl: 1.4rem;
-  --focus-ring-color: color-mix(in srgb, var(--color-primary) 55%, transparent);
-  --color-overlay: rgba(31, 23, 51, 0.35);
-  --transition-base: 160ms ease;
+
+  /* Typography - Font Stack (SF Pro / Helvetica Neue aligned) */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", "Consolas", monospace;
+
+  /* Colors - Warm Neutral Palette (Light Mode) */
+  --color-background: #faf9f6; /* Warm off-white */
+  --color-surface: #ffffff; /* Pure white for cards/surfaces */
+  --color-surface-subtle: #f5f3ef; /* Subtle warm gray */
+  --color-surface-inverse: #2a2826; /* Matte black for inverse elements */
+  
+  /* Typography Colors - Matte Black */
+  --color-text: #1a1918; /* Deep matte black */
+  --color-text-muted: #5e5a57; /* Warm muted gray */
+  --color-text-subtle: #8a8581; /* Light muted gray */
+  
+  /* Borders */
+  --color-border: rgba(42, 40, 38, 0.12); /* Matte border */
+  --color-border-subtle: rgba(42, 40, 38, 0.06);
+  
+  /* Accent Colors & Gradients */
+  --color-primary: #6366f1; /* Indigo accent */
+  --color-primary-soft: #818cf8; /* Lighter indigo */
+  --accent-from: #6366f1; /* Gradient start */
+  --accent-to: #8b5cf6; /* Gradient end (purple) */
+  --gradient-accent: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+  
+  /* Success/Status Colors */
+  --color-success: #10b981; /* Emerald green */
+  --color-success-soft: #34d399;
+  --color-warning: #f59e0b; /* Amber */
+  --color-error: #ef4444; /* Red */
+  
+  /* Glass Effects - Blur & Opacity */
+  --blur-sm: 8px;
+  --blur-md: 12px;
+  --blur-lg: 18px;
+  --blur-xl: 24px;
+  --blur-2xl: 32px;
+  
+  --glass-opacity-light: 0.7;
+  --glass-opacity-medium: 0.85;
+  --glass-opacity-heavy: 0.95;
+  
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: rgba(26, 25, 24, 0.1);
+  
+  /* Overlay */
+  --color-overlay: rgba(26, 25, 24, 0.4);
+  
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(26, 25, 24, 0.05);
+  --shadow-sm: 0 2px 4px rgba(26, 25, 24, 0.06), 0 1px 2px rgba(26, 25, 24, 0.03);
+  --shadow-md: 0 4px 8px rgba(26, 25, 24, 0.08), 0 2px 4px rgba(26, 25, 24, 0.04);
+  --shadow-lg: 0 12px 24px rgba(26, 25, 24, 0.1), 0 4px 8px rgba(26, 25, 24, 0.05);
+  --shadow-xl: 0 24px 48px rgba(26, 25, 24, 0.12), 0 8px 16px rgba(26, 25, 24, 0.06);
+  --shadow-2xl: 0 32px 64px rgba(26, 25, 24, 0.16), 0 12px 24px rgba(26, 25, 24, 0.08);
+  
+  /* Legacy shadow names (mapped to new scale) */
+  --shadow-subtle: var(--shadow-md);
+  --shadow-soft: var(--shadow-xl);
+  
+  /* Spacing Scale */
+  --space-3xs: 0.125rem; /* 2px */
+  --space-2xs: 0.25rem;  /* 4px */
+  --space-xs: 0.5rem;    /* 8px */
+  --space-sm: 0.75rem;   /* 12px */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+  --space-2xl: 3rem;     /* 48px */
+  --space-3xl: 4rem;     /* 64px */
+  --space-4xl: 6rem;     /* 96px */
+  --space-5xl: 8rem;     /* 128px */
+  
+  /* Border Radius Scale */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-3xl: 48px;
+  --radius-pill: 9999px;
+  --radius-circle: 50%;
+  
+  /* Typography Scale */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-base: 1rem;     /* 16px */
+  --font-size-md: 1rem;       /* 16px - alias for base */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  --font-size-5xl: 3rem;      /* 48px */
+  
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.02em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+  
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+  
+  /* Motion - Duration */
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+  
+  /* Motion - Easing */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-smooth: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  
+  /* Legacy transition token (mapped to new motion tokens) */
+  --transition-base: var(--duration-fast) var(--ease-in-out);
+  
+  /* Focus Ring */
+  --focus-ring-color: color-mix(in srgb, var(--accent-from) 50%, transparent);
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
 }
 
+/* Dark Theme - Inverted colors with warm-neutral palette */
 [data-theme='dark'] {
   color-scheme: dark;
-  --color-background: #13111d;
-  --color-surface: #1c1829;
-  --color-surface-subtle: #241f36;
-  --color-surface-inverse: #f7f2ff;
-  --color-text: #f5f1ff;
-  --color-text-muted: #c9c0e3;
-  --color-border: rgba(214, 196, 255, 0.18);
-  --color-primary: #a48bff;
-  --color-primary-soft: #c0afff;
-  --color-success: #58ddb2;
-  --shadow-soft: 0 24px 50px rgba(0, 0, 0, 0.45), 0 8px 24px rgba(0, 0, 0, 0.4);
-  --shadow-subtle: 0 16px 30px rgba(0, 0, 0, 0.5);
-  --color-overlay: rgba(4, 3, 8, 0.7);
+  
+  /* Colors - Warm Neutral Palette (Dark Mode) */
+  --color-background: #18161a; /* Deep warm charcoal */
+  --color-surface: #1f1d21; /* Slightly lighter charcoal for surfaces */
+  --color-surface-subtle: #252229; /* Subtle warm gray */
+  --color-surface-inverse: #faf9f6; /* Light surface for inverse */
+  
+  /* Typography Colors - Light on dark */
+  --color-text: #f5f3f0; /* Warm off-white */
+  --color-text-muted: #b8b3ad; /* Warm muted */
+  --color-text-subtle: #8a8581; /* Subtle muted */
+  
+  /* Borders */
+  --color-border: rgba(245, 243, 240, 0.12);
+  --color-border-subtle: rgba(245, 243, 240, 0.06);
+  
+  /* Accent Colors & Gradients (brighter for dark mode) */
+  --color-primary: #818cf8; /* Brighter indigo */
+  --color-primary-soft: #a5b4fc; /* Even lighter */
+  --accent-from: #818cf8;
+  --accent-to: #a78bfa; /* Brighter purple */
+  --gradient-accent: linear-gradient(135deg, var(--accent-from), var(--accent-to));
+  
+  /* Success/Status Colors (adjusted for dark) */
+  --color-success: #34d399; /* Brighter emerald */
+  --color-success-soft: #6ee7b7;
+  --color-warning: #fbbf24; /* Brighter amber */
+  --color-error: #f87171; /* Brighter red */
+  
+  /* Glass Effects - Dark mode adjustments */
+  --glass-border: rgba(245, 243, 240, 0.1);
+  --glass-shadow: rgba(0, 0, 0, 0.3);
+  
+  /* Overlay */
+  --color-overlay: rgba(8, 6, 10, 0.7);
+  
+  /* Shadows (darker, more prominent in dark mode) */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.45), 0 4px 8px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.5), 0 8px 16px rgba(0, 0, 0, 0.35);
+  --shadow-2xl: 0 32px 64px rgba(0, 0, 0, 0.55), 0 12px 24px rgba(0, 0, 0, 0.4);
+  
+  /* Legacy shadow names */
+  --shadow-subtle: var(--shadow-md);
+  --shadow-soft: var(--shadow-xl);
+  
+  /* Focus Ring (adjusted for dark) */
+  --focus-ring-color: color-mix(in srgb, var(--accent-from) 60%, transparent);
 }
