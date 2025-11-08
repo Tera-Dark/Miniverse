@@ -72,14 +72,27 @@ describe('games hub', () => {
     const queries = mountWith(games);
 
     const memoryChip = queries.getByRole('button', { name: 'Memory' });
+    
+    // Get all cards from the DOM initially
+    const initialCards = document.querySelectorAll('[role="listitem"]');
+    expect(initialCards.length).toBe(5);
+
     fireEvent.click(memoryChip);
 
-    const cards = queries.getAllByRole('listitem');
-    const hiddenCards = cards.filter((card) => card.hasAttribute('hidden'));
+    // Check all cards in the DOM, not just visible ones
+    const allCards = document.querySelectorAll('[role="listitem"]');
+    const hiddenCards = Array.from(allCards).filter((card) => card.hasAttribute('hidden'));
+    
     expect(hiddenCards.length).toBeGreaterThan(0);
+    // Should hide all cards except memory-matrix
+    expect(hiddenCards.length).toBe(4);
+    
+    // Verify memory-matrix is not hidden
+    const memoryCard = document.querySelector('[data-game-id="memory-matrix"]');
+    expect(memoryCard).not.toHaveAttribute('hidden');
 
     fireEvent.click(memoryChip);
-    const stillHidden = cards.filter((card) => card.hasAttribute('hidden'));
+    const stillHidden = Array.from(allCards).filter((card) => card.hasAttribute('hidden'));
     expect(stillHidden.length).toBe(0);
   });
 
