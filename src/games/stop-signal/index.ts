@@ -1110,13 +1110,13 @@ const stopSignalGame: GameModule = (() => {
     container.innerHTML = '';
 
     wrapper = document.createElement('div');
-    wrapper.className = 'stop-signal';
+    wrapper.className = 'glass-card stop-signal';
 
     const intro = document.createElement('div');
     intro.className = 'stop-signal__intro';
 
     const badge = document.createElement('span');
-    badge.className = 'stop-signal__badge';
+    badge.className = 'glass-badge';
     badge.textContent = '抑制控制';
 
     const introText = document.createElement('p');
@@ -1126,7 +1126,7 @@ const stopSignalGame: GameModule = (() => {
     intro.append(badge, introText);
 
     const settingsPanel = document.createElement('section');
-    settingsPanel.className = 'stop-signal__settings';
+    settingsPanel.className = 'glass-card stop-signal__settings';
 
     totalTrialsInput = document.createElement('input');
     totalTrialsInput.type = 'number';
@@ -1200,13 +1200,13 @@ const stopSignalGame: GameModule = (() => {
 
     const shortPresetButton = document.createElement('button');
     shortPresetButton.type = 'button';
-    shortPresetButton.className = 'stop-signal__preset';
+    shortPresetButton.className = 'glass-control stop-signal__preset';
     shortPresetButton.textContent = '短版（60 次）';
     shortPresetButton.addEventListener('click', () => applyPreset('short'));
 
     const standardPresetButton = document.createElement('button');
     standardPresetButton.type = 'button';
-    standardPresetButton.className = 'stop-signal__preset';
+    standardPresetButton.className = 'glass-control stop-signal__preset';
     standardPresetButton.textContent = '标准版（120 次）';
     standardPresetButton.addEventListener('click', () => applyPreset('standard'));
 
@@ -1245,7 +1245,7 @@ const stopSignalGame: GameModule = (() => {
     actions.append(startButton, pauseButton, retryButton);
 
     const progressWrapper = document.createElement('div');
-    progressWrapper.className = 'stop-signal__progress-wrapper';
+    progressWrapper.className = 'glass-card stop-signal__progress-wrapper';
 
     const progressTrack = document.createElement('div');
     progressTrack.className = 'stop-signal__progress-track';
@@ -1262,12 +1262,12 @@ const stopSignalGame: GameModule = (() => {
       label: string
     ): { element: HTMLDivElement; value: HTMLSpanElement } => {
       const element = document.createElement('div');
-      element.className = 'stop-signal__metric';
+      element.className = 'glass-tile stop-signal__metric';
       const title = document.createElement('span');
-      title.className = 'stop-signal__metric-label';
+      title.className = 'glass-tile-label';
       title.textContent = label;
       const value = document.createElement('span');
-      value.className = 'stop-signal__metric-value';
+      value.className = 'glass-tile-value';
       element.append(title, value);
       return { element, value };
     };
@@ -1296,7 +1296,7 @@ const stopSignalGame: GameModule = (() => {
     );
 
     const stage = document.createElement('div');
-    stage.className = 'stop-signal__stage';
+    stage.className = 'glass-card stop-signal__stage';
 
     stimulusNode = document.createElement('div');
     stimulusNode.className = 'stop-signal__stimulus';
@@ -1313,12 +1313,12 @@ const stopSignalGame: GameModule = (() => {
 
     leftResponseButton = document.createElement('button');
     leftResponseButton.type = 'button';
-    leftResponseButton.className = 'stop-signal__response';
+    leftResponseButton.className = 'glass-control stop-signal__response';
     leftResponseButton.addEventListener('click', handleLeftResponseClick);
 
     rightResponseButton = document.createElement('button');
     rightResponseButton.type = 'button';
-    rightResponseButton.className = 'stop-signal__response';
+    rightResponseButton.className = 'glass-control stop-signal__response';
     rightResponseButton.addEventListener('click', handleRightResponseClick);
 
     responses.append(leftResponseButton, rightResponseButton);
@@ -1328,7 +1328,7 @@ const stopSignalGame: GameModule = (() => {
     statusNode.textContent = '调整参数后点击“开始练习”。';
 
     summaryNode = document.createElement('div');
-    summaryNode.className = 'stop-signal__summary';
+    summaryNode.className = 'glass-card stop-signal__summary';
     summaryNode.hidden = true;
 
     wrapper.append(

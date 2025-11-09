@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glass UI Test - Advanced Games</title>
+  <link rel="stylesheet" href="/src/theme.css">
+  <link rel="stylesheet" href="/src/styles/layout.css">
+  <link rel="stylesheet" href="/src/styles/components.css">
+  <link rel="stylesheet" href="/src/styles/games.css">
+  <style>
+    body {
+      margin: 0;
+      padding: var(--space-2xl);
+      background: var(--color-background);
+      min-height: 100vh;
+    }
+    .test-container {
+      display: grid;
+      gap: var(--space-xl);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .test-section {
+      padding: var(--space-lg);
+      border-radius: var(--radius-lg);
+      background: var(--color-surface);
+      margin-bottom: var(--space-lg);
+    }
+    .test-title {
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+      margin: 0 0 var(--space-md) 0;
+      color: var(--color-text);
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <div class="test-section">
+      <h2 class="test-title">Schulte Table Glass Components</h2>
+      
+      <!-- Glass Badge Test -->
+      <div class="glass-badge">专注力训练</div>
+      
+      <!-- Glass Controls Test -->
+      <div style="display: flex; gap: var(--space-sm); margin: var(--space-md) 0;">
+        <button class="glass-control is-active">入门 4×4</button>
+        <button class="glass-control">标准 5×5</button>
+        <button class="glass-control">挑战 6×6</button>
+      </div>
+      
+      <!-- Glass Tiles Test -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin: var(--space-md) 0;">
+        <div class="glass-tile">
+          <span class="glass-tile-label">下一个数字</span>
+          <span class="glass-tile-value">1</span>
+        </div>
+        <div class="glass-tile">
+          <span class="glass-tile-label">已用时间</span>
+          <span class="glass-tile-value">0.00</span>
+          <span class="glass-tile-suffix">秒</span>
+        </div>
+        <div class="glass-tile">
+          <span class="glass-tile-label">最佳成绩</span>
+          <span class="glass-tile-value">--</span>
+          <span class="glass-tile-suffix">秒</span>
+        </div>
+      </div>
+      
+      <!-- Glass Card with Schulte Table -->
+      <div class="glass-card schulte-table" style="--grid-size: 4;">
+        <button class="glass-control schulte-table__cell">1</button>
+        <button class="glass-control schulte-table__cell">2</button>
+        <button class="glass-control schulte-table__cell">3</button>
+        <button class="glass-control schulte-table__cell">4</button>
+        <button class="glass-control schulte-table__cell">5</button>
+        <button class="glass-control schulte-table__cell">6</button>
+        <button class="glass-control schulte-table__cell">7</button>
+        <button class="glass-control schulte-table__cell">8</button>
+        <button class="glass-control schulte-table__cell">9</button>
+        <button class="glass-control schulte-table__cell">10</button>
+        <button class="glass-control schulte-table__cell">11</button>
+        <button class="glass-control schulte-table__cell">12</button>
+        <button class="glass-control schulte-table__cell">13</button>
+        <button class="glass-control schulte-table__cell">14</button>
+        <button class="glass-control schulte-table__cell">15</button>
+        <button class="glass-control schulte-table__cell">16</button>
+      </div>
+    </div>
+    
+    <div class="test-section">
+      <h2 class="test-title">Stop Signal Glass Components</h2>
+      
+      <!-- Glass Badge Test -->
+      <div class="glass-badge">抑制控制</div>
+      
+      <!-- Glass Controls for Presets -->
+      <div style="display: flex; gap: var(--space-sm); margin: var(--space-md) 0;">
+        <button class="glass-control stop-signal__preset">短版（60 次）</button>
+        <button class="glass-control stop-signal__preset">标准版（120 次）</button>
+      </div>
+      
+      <!-- Glass Tiles for HUD -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin: var(--space-md) 0;">
+        <div class="glass-tile stop-signal__metric">
+          <span class="glass-tile-label">当前阶段</span>
+          <span class="glass-tile-value">准备</span>
+        </div>
+        <div class="glass-tile stop-signal__metric">
+          <span class="glass-tile-label">已完成试次</span>
+          <span class="glass-tile-value">0 / 120</span>
+        </div>
+        <div class="glass-tile stop-signal__metric">
+          <span class="glass-tile-label">停止成功率</span>
+          <span class="glass-tile-value">—</span>
+        </div>
+      </div>
+      
+      <!-- Glass Card for Stage -->
+      <div class="glass-card stop-signal__stage">
+        <div class="stop-signal__stimulus">←</div>
+        <div class="stop-signal__stop-cue">
+          <span>✖</span>
+          <small>停止</small>
+        </div>
+      </div>
+      
+      <!-- Glass Controls for Response -->
+      <div style="display: flex; gap: var(--space-md); justify-content: center; margin: var(--space-md) 0;">
+        <button class="glass-control stop-signal__response">← ArrowLeft</button>
+        <button class="glass-control stop-signal__response">ArrowRight →</button>
+      </div>
+    </div>
+    
+    <div class="test-section">
+      <h2 class="test-title">Accessibility & Responsive Tests</h2>
+      <p style="color: var(--color-text-muted); margin: var(--space-md) 0;">
+        Tab through elements to test focus states. Toggle high contrast mode and reduced motion in browser settings to test accessibility.
+      </p>
+      
+      <!-- Test focus states -->
+      <div style="display: flex; gap: var(--space-sm); margin: var(--space-md) 0;">
+        <button class="glass-control" tabindex="0">Focus Test 1</button>
+        <button class="glass-control" tabindex="0">Focus Test 2</button>
+        <button class="glass-control" tabindex="0">Focus Test 3</button>
+      </div>
+      
+      <!-- Test disabled states -->
+      <div style="display: flex; gap: var(--space-sm); margin: var(--space-md) 0;">
+        <button class="glass-control" disabled>Disabled</button>
+        <button class="glass-control" disabled>Disabled Active</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Add some interactivity for testing
+    document.querySelectorAll('.glass-control').forEach(button => {
+      button.addEventListener('click', function() {
+        if (!this.disabled) {
+          // Toggle active state for testing
+          const siblings = this.parentElement.querySelectorAll('.glass-control');
+          siblings.forEach(sibling => sibling.classList.remove('is-active'));
+          this.classList.add('is-active');
+          
+          // Simulate cell click for schulte table
+          if (this.classList.contains('schulte-table__cell')) {
+            this.classList.add('is-cleared');
+            this.disabled = true;
+          }
+        }
+      });
+    });
+    
+    // Test stop signal visibility
+    const stopCue = document.querySelector('.stop-signal__stop-cue');
+    const stimulus = document.querySelector('.stop-signal__stimulus');
+    
+    if (stopCue && stimulus) {
+      let visible = false;
+      setInterval(() => {
+        visible = !visible;
+        stopCue.classList.toggle('is-visible', visible);
+        stimulus.style.opacity = visible ? '0.3' : '1';
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
