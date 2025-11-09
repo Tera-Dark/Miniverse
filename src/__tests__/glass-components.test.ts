@@ -128,7 +128,9 @@ describe('Glass Components for Advanced Games', () => {
       
       // Focus should be visible (outline or box shadow)
       const computedStyle = getComputedStyle(button);
-      expect(computedStyle.outline).toBe('none' || computedStyle.boxShadow).toBeTruthy();
+      const hasOutline = computedStyle.outline !== 'none';
+      const hasBoxShadow = computedStyle.boxShadow !== 'none';
+      expect(hasOutline || hasBoxShadow).toBe(true);
     });
 
     it('supports disabled state', () => {
