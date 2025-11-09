@@ -216,7 +216,7 @@ const schulteGame: GameModule = (() => {
     numbers.forEach((value) => {
       const cell = document.createElement('button');
       cell.type = 'button';
-      cell.className = 'schulte-table__cell';
+      cell.className = 'glass-control schulte-table__cell';
       cell.textContent = value.toString();
       cell.dataset.value = value.toString();
 
@@ -274,13 +274,13 @@ const schulteGame: GameModule = (() => {
     difficultyButtons.clear();
 
     const wrapper = document.createElement('div');
-    wrapper.className = 'schulte-game';
+    wrapper.className = 'glass-card schulte-game';
 
     const intro = document.createElement('div');
     intro.className = 'schulte-game__intro';
 
     const badge = document.createElement('span');
-    badge.className = 'schulte-game__badge';
+    badge.className = 'glass-badge';
     badge.textContent = '专注力训练';
 
     const introText = document.createElement('p');
@@ -302,7 +302,7 @@ const schulteGame: GameModule = (() => {
     difficulties.forEach((difficulty) => {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'schulte-game__difficulty';
+      button.className = 'glass-control';
       button.textContent = difficulty.label;
       button.addEventListener('click', () => setDifficulty(difficulty));
       difficultyButtons.set(difficulty.id, button);
@@ -315,38 +315,38 @@ const schulteGame: GameModule = (() => {
     metrics.className = 'schulte-game__metrics';
 
     const nextMetric = document.createElement('div');
-    nextMetric.className = 'schulte-game__metric';
+    nextMetric.className = 'glass-tile';
     const nextLabel = document.createElement('span');
-    nextLabel.className = 'schulte-game__metric-label';
+    nextLabel.className = 'glass-tile-label';
     nextLabel.textContent = '下一个数字';
     infoNode = document.createElement('span');
-    infoNode.className = 'schulte-game__metric-value';
+    infoNode.className = 'glass-tile-value';
     infoNode.textContent = '1';
     nextMetric.append(nextLabel, infoNode);
 
     const timerMetric = document.createElement('div');
-    timerMetric.className = 'schulte-game__metric';
+    timerMetric.className = 'glass-tile';
     const timerLabel = document.createElement('span');
-    timerLabel.className = 'schulte-game__metric-label';
+    timerLabel.className = 'glass-tile-label';
     timerLabel.textContent = '已用时间';
     timerValueNode = document.createElement('span');
-    timerValueNode.className = 'schulte-game__metric-value';
+    timerValueNode.className = 'glass-tile-value';
     timerValueNode.textContent = '0.00';
     const timerUnit = document.createElement('span');
-    timerUnit.className = 'schulte-game__metric-suffix';
+    timerUnit.className = 'glass-tile-suffix';
     timerUnit.textContent = '秒';
     timerMetric.append(timerLabel, timerValueNode, timerUnit);
 
     const recordMetric = document.createElement('div');
-    recordMetric.className = 'schulte-game__metric';
+    recordMetric.className = 'glass-tile';
     const recordLabel = document.createElement('span');
-    recordLabel.className = 'schulte-game__metric-label';
+    recordLabel.className = 'glass-tile-label';
     recordLabel.textContent = '最佳成绩';
     recordValueNode = document.createElement('span');
-    recordValueNode.className = 'schulte-game__metric-value';
+    recordValueNode.className = 'glass-tile-value';
     recordValueNode.textContent = '--';
     const recordUnit = document.createElement('span');
-    recordUnit.className = 'schulte-game__metric-suffix';
+    recordUnit.className = 'glass-tile-suffix';
     recordUnit.textContent = '秒';
     recordMetric.append(recordLabel, recordValueNode, recordUnit);
 
@@ -362,7 +362,7 @@ const schulteGame: GameModule = (() => {
     actions.appendChild(actionButton);
 
     board = document.createElement('div');
-    board.className = 'schulte-table';
+    board.className = 'glass-card schulte-table';
 
     statusNode = document.createElement('p');
     statusNode.className = 'schulte-game__status';
