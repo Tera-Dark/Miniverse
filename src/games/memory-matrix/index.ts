@@ -572,6 +572,11 @@ const memoryMatrixGame: GameModule = (() => {
       wrapper.dataset.contrast = isHighContrast ? 'high' : 'default';
     }
 
+    // Update glass components for high contrast mode
+    document.querySelectorAll('.memory-matrix .glass-control, .memory-matrix .glass-tile, .memory-matrix .glass-badge').forEach((element) => {
+      element.setAttribute('data-high-contrast', isHighContrast ? 'true' : 'false');
+    });
+
     if (contrastToggle) {
       contrastToggle.textContent = isHighContrast ? '切换柔和模式' : '切换高对比';
       contrastToggle.setAttribute('aria-pressed', isHighContrast ? 'true' : 'false');
@@ -608,7 +613,7 @@ const memoryMatrixGame: GameModule = (() => {
     intro.className = 'memory-matrix__intro';
 
     const badge = document.createElement('span');
-    badge.className = 'memory-matrix__badge';
+    badge.className = 'glass-badge memory-matrix__badge';
     badge.textContent = '工作记忆训练';
 
     const introText = document.createElement('p');
@@ -626,7 +631,7 @@ const memoryMatrixGame: GameModule = (() => {
     difficulties.forEach((difficulty) => {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'memory-matrix__difficulty';
+      button.className = 'glass-control memory-matrix__difficulty';
       button.textContent = difficulty.label;
       button.addEventListener('click', () => setDifficulty(difficulty));
       difficultyButtons.set(difficulty.id, button);
@@ -638,7 +643,7 @@ const memoryMatrixGame: GameModule = (() => {
 
     contrastToggle = document.createElement('button');
     contrastToggle.type = 'button';
-    contrastToggle.className = 'memory-matrix__contrast-toggle';
+    contrastToggle.className = 'glass-control memory-matrix__contrast-toggle';
     contrastToggle.textContent = '切换高对比';
     contrastToggle.setAttribute('aria-pressed', 'false');
     contrastToggle.addEventListener('click', toggleContrast);
@@ -750,20 +755,20 @@ const memoryMatrixGame: GameModule = (() => {
     suffix?: string
   ): { container: HTMLDivElement; value: HTMLSpanElement } => {
     const container = document.createElement('div');
-    container.className = 'memory-matrix__metric';
+    container.className = 'glass-tile memory-matrix__metric';
 
     const labelNode = document.createElement('span');
-    labelNode.className = 'memory-matrix__metric-label';
+    labelNode.className = 'glass-tile-label memory-matrix__metric-label';
     labelNode.textContent = label;
 
     const value = document.createElement('span');
-    value.className = 'memory-matrix__metric-value';
+    value.className = 'glass-tile-value memory-matrix__metric-value';
 
     container.append(labelNode, value);
 
     if (suffix) {
       const suffixNode = document.createElement('span');
-      suffixNode.className = 'memory-matrix__metric-suffix';
+      suffixNode.className = 'glass-tile-suffix memory-matrix__metric-suffix';
       suffixNode.textContent = suffix;
       container.appendChild(suffixNode);
     }
@@ -775,14 +780,14 @@ const memoryMatrixGame: GameModule = (() => {
     label: string
   ): { container: HTMLDivElement; value: HTMLSpanElement } => {
     const container = document.createElement('div');
-    container.className = 'memory-matrix__summary-item';
+    container.className = 'glass-tile memory-matrix__summary-item';
 
     const labelNode = document.createElement('span');
-    labelNode.className = 'memory-matrix__summary-label';
+    labelNode.className = 'glass-tile-label memory-matrix__summary-label';
     labelNode.textContent = label;
 
     const value = document.createElement('span');
-    value.className = 'memory-matrix__summary-value';
+    value.className = 'glass-tile-value memory-matrix__summary-value';
     value.textContent = '0';
 
     container.append(labelNode, value);

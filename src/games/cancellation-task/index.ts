@@ -496,7 +496,7 @@ const buildGame = (): GameModule => {
     difficulties.forEach((difficulty) => {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'schulte-game__difficulty';
+      button.className = 'glass-control schulte-game__difficulty';
       button.textContent = difficulty.label;
       button.addEventListener('click', () => setDifficulty(difficulty));
       difficultyButtons.set(difficulty.id, button);
@@ -518,7 +518,7 @@ const buildGame = (): GameModule => {
     rulePresets.forEach((rule) => {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'schulte-game__difficulty';
+      button.className = 'glass-control schulte-game__difficulty';
       button.textContent = rule.label;
       button.addEventListener('click', () => setRule(rule));
       ruleButtons.set(rule.id, button);
@@ -562,14 +562,14 @@ const buildGame = (): GameModule => {
 
     const metric = (label: string, valueRef: (node: HTMLSpanElement) => void, suffix?: string): HTMLDivElement => {
       const container = document.createElement('div');
-      container.className = 'cancellation-game__metric';
+      container.className = 'glass-tile cancellation-game__metric';
 
       const metricLabel = document.createElement('span');
-      metricLabel.className = 'cancellation-game__metric-label';
+      metricLabel.className = 'glass-tile-label cancellation-game__metric-label';
       metricLabel.textContent = label;
 
       const metricValue = document.createElement('span');
-      metricValue.className = 'cancellation-game__metric-value';
+      metricValue.className = 'glass-tile-value cancellation-game__metric-value';
       metricValue.textContent = '--';
       valueRef(metricValue);
 
@@ -577,7 +577,7 @@ const buildGame = (): GameModule => {
 
       if (suffix) {
         const suffixNode = document.createElement('span');
-        suffixNode.className = 'cancellation-game__metric-suffix';
+        suffixNode.className = 'glass-tile-suffix cancellation-game__metric-suffix';
         suffixNode.textContent = suffix;
         container.appendChild(suffixNode);
       }
@@ -620,7 +620,7 @@ const buildGame = (): GameModule => {
     intro.className = 'cancellation-game__intro';
 
     const badge = document.createElement('span');
-    badge.className = 'schulte-game__badge';
+    badge.className = 'glass-badge schulte-game__badge';
     badge.textContent = '视觉搜索';
 
     const introText = document.createElement('p');
@@ -628,7 +628,7 @@ const buildGame = (): GameModule => {
     introText.textContent = '根据目标规则取消所有目标图形，训练视觉扫描与干扰抑制能力。';
 
     ruleBadge = document.createElement('span');
-    ruleBadge.className = 'cancellation-game__rule';
+    ruleBadge.className = 'glass-badge cancellation-game__rule';
     intro.append(badge, introText, ruleBadge);
 
     const toolbar = buildToolbar();

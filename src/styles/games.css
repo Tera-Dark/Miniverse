@@ -454,6 +454,571 @@
 
 /* Mobile layout handled in main card styles */
 
+/* Shared Glass Components for Games */
+.glass-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-light), transparent);
+  backdrop-filter: blur(var(--blur-sm));
+  border: 1px solid var(--glass-border);
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wide);
+  box-shadow: var(--shadow-xs);
+  transition: all var(--duration-fast) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-accent);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+  z-index: -1;
+}
+
+.glass-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+  border-color: color-mix(in srgb, var(--accent-from) 30%, transparent);
+}
+
+.glass-badge:hover::before {
+  opacity: 0.05;
+}
+
+.glass-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-light), transparent);
+  backdrop-filter: blur(var(--blur-sm));
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+  min-height: 44px;
+  min-width: 44px;
+  user-select: none;
+}
+
+.glass-control::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-accent);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+  z-index: -1;
+}
+
+.glass-control:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  border-color: color-mix(in srgb, var(--accent-from) 30%, transparent);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-medium), transparent);
+}
+
+.glass-control:hover::before {
+  opacity: 0.08;
+}
+
+.glass-control:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.glass-control.is-active {
+  background: var(--gradient-accent);
+  color: var(--color-surface);
+  border-color: transparent;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+.glass-control.is-active::before {
+  opacity: 1;
+}
+
+.glass-control:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  background: color-mix(in srgb, var(--color-surface-subtle) var(--glass-opacity-light), transparent);
+}
+
+.glass-tile {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-light), transparent);
+  backdrop-filter: blur(var(--blur-sm));
+  border: 1px solid var(--glass-border);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+  transition: all var(--duration-fast) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-accent);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+  z-index: -1;
+}
+
+.glass-tile:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+  border-color: color-mix(in srgb, var(--accent-from) 20%, transparent);
+}
+
+.glass-tile:hover::before {
+  opacity: 0.03;
+}
+
+.glass-tile-label {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.glass-tile-value {
+  font-size: var(--font-size-base);
+  font-family: var(--font-mono);
+  color: var(--color-text);
+}
+
+.glass-tile-suffix {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+/* High contrast mode support */
+.glass-control[data-high-contrast="true"],
+.glass-tile[data-high-contrast="true"],
+.glass-badge[data-high-contrast="true"] {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  backdrop-filter: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.glass-control[data-high-contrast="true"].is-active {
+  background: var(--gradient-accent);
+  color: var(--color-surface);
+  border-color: transparent;
+}
+
+.glass-control[data-high-contrast="true"]:hover,
+.glass-tile[data-high-contrast="true"]:hover {
+  border-color: var(--accent-from);
+  box-shadow: var(--shadow-md);
+}
+
+/* Rhythm Tapping Glass Styles */
+.rhythm-tapping {
+  --rhythm-accent: #facc15;
+  --rhythm-surface: color-mix(in srgb, var(--rhythm-accent) 14%, transparent);
+  --rhythm-surface-strong: color-mix(in srgb, var(--rhythm-accent) 22%, transparent);
+  --rhythm-border: var(--glass-border);
+  display: grid;
+  gap: var(--space-xl);
+  width: 100%;
+}
+
+.rhythm-tapping__layout {
+  display: grid;
+  gap: var(--space-xl);
+}
+
+@media (min-width: 960px) {
+  .rhythm-tapping__layout {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
+    align-items: start;
+  }
+}
+
+.rhythm-tapping__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+  padding: var(--space-xl);
+  border-radius: var(--radius-2xl);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-heavy), transparent);
+  backdrop-filter: blur(var(--blur-xl));
+  border: 1px solid var(--glass-border);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  transition: all var(--duration-base) var(--ease-smooth);
+}
+
+.rhythm-tapping--contrast .rhythm-tapping__stage {
+  background: var(--color-surface-inverse);
+  color: var(--color-surface);
+  border-color: color-mix(in srgb, var(--color-surface) 0.38, transparent);
+  box-shadow: var(--shadow-2xl);
+}
+
+.rhythm-tapping__pulse {
+  width: 160px;
+  height: 160px;
+  border-radius: var(--radius-circle);
+  border: 4px solid var(--rhythm-accent);
+  box-shadow: 0 0 0 color-mix(in srgb, var(--rhythm-accent) 40%, transparent);
+  display: grid;
+  place-items: center;
+  color: inherit;
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--color-surface) 92%, transparent), transparent 62%);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.rhythm-tapping--contrast .rhythm-tapping__pulse {
+  background: radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--color-surface) 92%, transparent), color-mix(in srgb, var(--color-surface-inverse) 10%, transparent) 65%);
+}
+
+.rhythm-tapping__pulse.is-pulsing {
+  transform: scale(1.12);
+  box-shadow: 0 0 32px color-mix(in srgb, var(--rhythm-accent) 65%, transparent);
+}
+
+.rhythm-tapping--visual-disabled .rhythm-tapping__pulse {
+  opacity: 0.22;
+}
+
+.rhythm-tapping--audio-disabled .rhythm-tapping__pulse {
+  border-style: dashed;
+  opacity: 0.65;
+}
+
+.rhythm-tapping__pad {
+  width: 100%;
+  max-width: 360px;
+  padding: var(--space-lg);
+  border-radius: var(--radius-xl);
+  border: 2px dashed var(--glass-border);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-medium), transparent);
+  backdrop-filter: blur(var(--blur-md));
+  color: inherit;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  min-height: 48px;
+  min-width: 48px;
+}
+
+.rhythm-tapping__pad:hover {
+  border-color: color-mix(in srgb, var(--rhythm-accent) 70%, transparent);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+.rhythm-tapping__pad.is-active {
+  transform: translateY(1px) scale(0.995);
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--rhythm-accent) 80%, transparent);
+  background: color-mix(in srgb, var(--rhythm-accent) 12%, transparent);
+}
+
+.rhythm-tapping--contrast .rhythm-tapping__pad {
+  background: color-mix(in srgb, var(--color-surface-inverse) 60%, transparent);
+  border-color: color-mix(in srgb, var(--color-surface) 35%, transparent);
+}
+
+.rhythm-tapping__hud {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.rhythm-tapping__hud-item {
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm) var(--space-md);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-medium), transparent);
+  backdrop-filter: blur(var(--blur-lg));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.rhythm-tapping__hud-item:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.rhythm-tapping--contrast .rhythm-tapping__hud-item {
+  background: color-mix(in srgb, var(--color-surface-inverse) 55%, transparent);
+  border-color: color-mix(in srgb, var(--color-surface) 35%, transparent);
+}
+
+.rhythm-tapping__hud-label {
+  font-size: var(--font-size-xs);
+  opacity: 0.75;
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-semibold);
+}
+
+.rhythm-tapping__hud-value {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  font-family: var(--font-mono);
+}
+
+.rhythm-tapping__controls {
+  display: grid;
+  gap: var(--space-md);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-lg);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-heavy), transparent);
+  backdrop-filter: blur(var(--blur-xl));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+}
+
+.rhythm-tapping--contrast .rhythm-tapping__controls {
+  background: color-mix(in srgb, var(--color-surface-inverse) 65%, transparent);
+  border-color: color-mix(in srgb, var(--color-surface) 28%, transparent);
+}
+
+.rhythm-tapping__preset-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.rhythm-tapping__chip {
+  border-radius: var(--radius-pill);
+  padding: var(--space-2xs) var(--space-sm);
+  border: 1px solid var(--glass-border);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-light), transparent);
+  backdrop-filter: blur(var(--blur-sm));
+  color: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  min-height: 44px;
+  min-width: 44px;
+  user-select: none;
+}
+
+.rhythm-tapping__chip:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+  border-color: color-mix(in srgb, var(--rhythm-accent) 30%, transparent);
+}
+
+.rhythm-tapping__chip.is-active {
+  border-color: color-mix(in srgb, var(--rhythm-accent) 80%, transparent);
+  background: color-mix(in srgb, var(--rhythm-accent) 25%, transparent);
+  color: var(--color-surface-inverse);
+  box-shadow: var(--shadow-md);
+}
+
+.rhythm-tapping--contrast .rhythm-tapping__chip {
+  background: color-mix(in srgb, var(--color-surface-inverse) 50%, transparent);
+  border-color: color-mix(in srgb, var(--color-surface) 35%, transparent);
+}
+
+.rhythm-tapping--contrast .rhythm-tapping__chip.is-active {
+  color: var(--rhythm-accent);
+  background: color-mix(in srgb, var(--rhythm-accent) 22%, transparent);
+}
+
+.rhythm-tapping__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.rhythm-tapping__field label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  opacity: 0.82;
+  color: var(--color-text);
+}
+
+.rhythm-tapping__field input,
+.rhythm-tapping__field select {
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  padding: var(--space-sm) var(--space-md);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-light), transparent);
+  backdrop-filter: blur(var(--blur-sm));
+  color: inherit;
+  font: inherit;
+  transition: all var(--duration-fast) var(--ease-out);
+  min-height: 44px;
+}
+
+.rhythm-tapping__field input:hover,
+.rhythm-tapping__field select:hover {
+  border-color: color-mix(in srgb, var(--accent-from) 30%, transparent);
+}
+
+.rhythm-tapping__field input:focus,
+.rhythm-tapping__field select:focus {
+  outline: none;
+  border-color: var(--accent-from);
+  box-shadow: 0 0 0 var(--focus-ring-width) var(--focus-ring-color);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-medium), transparent);
+}
+
+.rhythm-tapping--contrast .rhythm-tapping__field input,
+.rhythm-tapping--contrast .rhythm-tapping__field select {
+  background: color-mix(in srgb, var(--color-surface-inverse) 60%, transparent);
+  border-color: color-mix(in srgb, var(--color-surface) 35%, transparent);
+}
+
+.rhythm-tapping__toggles {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.rhythm-tapping__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-size-sm);
+}
+
+.rhythm-tapping__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.rhythm-tapping__actions button {
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border);
+  padding: var(--space-sm) var(--space-lg);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-medium), transparent);
+  backdrop-filter: blur(var(--blur-sm));
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  min-height: 48px;
+  min-width: 48px;
+  user-select: none;
+}
+
+.rhythm-tapping__actions button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  border-color: color-mix(in srgb, var(--rhythm-accent) 80%, transparent);
+}
+
+.rhythm-tapping__actions button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.rhythm-tapping--contrast .rhythm-tapping__actions button {
+  background: color-mix(in srgb, var(--color-surface-inverse) 60%, transparent);
+  border-color: color-mix(in srgb, var(--color-surface) 28%, transparent);
+}
+
+.rhythm-tapping__status {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  opacity: 0.9;
+  color: var(--color-text-muted);
+}
+
+.rhythm-tapping__summary {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.rhythm-tapping__summary-card {
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-heavy), transparent);
+  backdrop-filter: blur(var(--blur-xl));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
+  display: grid;
+  gap: var(--space-md);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.rhythm-tapping__summary-card:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-xl);
+}
+
+.rhythm-tapping--contrast .rhythm-tapping__summary-card {
+  background: color-mix(in srgb, var(--color-surface-inverse) 60%, transparent);
+  border-color: color-mix(in srgb, var(--color-surface) 32%, transparent);
+}
+
+.rhythm-tapping__summary-title {
+  margin: 0;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+.rhythm-tapping__metrics {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.rhythm-tapping__metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-md);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+
+.rhythm-tapping__metric-label {
+  opacity: 0.72;
+  font-weight: var(--font-weight-medium);
+}
+
+.rhythm-tapping__metric-value {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+  font-family: var(--font-mono);
+}
+
 @keyframes games-shimmer {
   0% {
     transform: translateX(-100%);

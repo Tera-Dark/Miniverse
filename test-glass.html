@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Components Test</title>
+    <link rel="stylesheet" href="/src/styles/main.css">
+    <link rel="stylesheet" href="/src/styles/games.css">
+    <script type="module" src="/src/main.ts"></script>
+    <style>
+        body {
+            padding: 2rem;
+            background: var(--color-background);
+        }
+        .test-container {
+            display: grid;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-light), transparent);
+            backdrop-filter: blur(var(--blur-md));
+            border: 1px solid var(--glass-border);
+        }
+        .test-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: 1rem;
+            color: var(--color-text);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-section">
+            <h2 class="test-title">Glass Badge</h2>
+            <span class="glass-badge">Test Badge</span>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">Glass Control</h2>
+            <button class="glass-control">Test Button</button>
+            <button class="glass-control is-active">Active Button</button>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">Glass Tile</h2>
+            <div class="glass-tile">
+                <span class="glass-tile-label">Label</span>
+                <span class="glass-tile-value">123</span>
+                <span class="glass-tile-suffix">ms</span>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">High Contrast Test</h2>
+            <button class="glass-control" data-high-contrast="true">High Contrast</button>
+            <span class="glass-badge" data-high-contrast="true">High Contrast Badge</span>
+            <div class="glass-tile" data-high-contrast="true">
+                <span class="glass-tile-label">HC Label</span>
+                <span class="glass-tile-value">456</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
