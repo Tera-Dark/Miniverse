@@ -1,9 +1,9 @@
 import { fireEvent, within } from '@testing-library/dom';
 import { describe, expect, it, beforeEach, afterEach, vi } from 'vitest';
 
-import { mountGamesHub } from '@/games/hub';
 import { listGames, getGamePath } from '@/games';
 import type { RegisteredGameMeta } from '@/games';
+import { mountGamesHub } from '@/games/hub';
 import { createDomHost } from '@/test/test-utils';
 
 const originalMatchMedia = window.matchMedia;
