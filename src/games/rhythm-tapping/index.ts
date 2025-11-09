@@ -66,330 +66,7 @@ const LATENCY_MIN_MS = -250;
 const LATENCY_MAX_MS = 250;
 
 const ensureStyles = () => {
-  if (document.getElementById(STYLE_TAG_ID)) {
-    return;
-  }
-
-  const style = document.createElement('style');
-  style.id = STYLE_TAG_ID;
-  style.textContent = `
-    .rhythm-tapping {
-      --rhythm-accent: #facc15;
-      --rhythm-surface: rgba(250, 204, 21, 0.14);
-      --rhythm-surface-strong: rgba(250, 204, 21, 0.22);
-      --rhythm-border: rgba(17, 24, 39, 0.08);
-      display: grid;
-      gap: 1.5rem;
-      width: 100%;
-    }
-
-    .rhythm-tapping__layout {
-      display: grid;
-      gap: 1.5rem;
-    }
-
-    @media (min-width: 960px) {
-      .rhythm-tapping__layout {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 340px);
-        align-items: start;
-      }
-    }
-
-    .rhythm-tapping__stage {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-      padding: 1.75rem;
-      border-radius: 22px;
-      background: var(--rhythm-surface);
-      border: 1px solid var(--rhythm-border);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 36px 60px rgba(250, 204, 21, 0.12);
-      transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease;
-    }
-
-    .rhythm-tapping--contrast .rhythm-tapping__stage {
-      background: #0f172a;
-      color: #f8fafc;
-      border-color: rgba(148, 163, 184, 0.38);
-      box-shadow: 0 32px 60px rgba(15, 23, 42, 0.42);
-    }
-
-    .rhythm-tapping__pulse {
-      width: 160px;
-      height: 160px;
-      border-radius: 999px;
-      border: 4px solid var(--rhythm-accent);
-      box-shadow: 0 0 0 rgba(250, 204, 21, 0.4);
-      display: grid;
-      place-items: center;
-      color: inherit;
-      font-weight: 600;
-      font-size: 0.9rem;
-      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0) 62%);
-      transition: transform 120ms ease, box-shadow 160ms ease, opacity 180ms ease;
-    }
-
-    .rhythm-tapping--contrast .rhythm-tapping__pulse {
-      background: radial-gradient(circle at 50% 50%, rgba(249, 250, 251, 0.92), rgba(15, 23, 42, 0.1) 65%);
-    }
-
-    .rhythm-tapping__pulse.is-pulsing {
-      transform: scale(1.12);
-      box-shadow: 0 0 32px rgba(250, 204, 21, 0.65);
-    }
-
-    .rhythm-tapping--visual-disabled .rhythm-tapping__pulse {
-      opacity: 0.22;
-    }
-
-    .rhythm-tapping--audio-disabled .rhythm-tapping__pulse {
-      border-style: dashed;
-      opacity: 0.65;
-    }
-
-    .rhythm-tapping__pad {
-      width: 100%;
-      max-width: 360px;
-      padding: 1.25rem;
-      border-radius: 20px;
-      border: 2px dashed rgba(17, 24, 39, 0.18);
-      background: rgba(255, 255, 255, 0.7);
-      color: inherit;
-      font-size: 1.08rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 120ms ease, border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
-    }
-
-    .rhythm-tapping__pad:hover {
-      border-color: rgba(250, 204, 21, 0.7);
-      box-shadow: 0 12px 35px rgba(250, 204, 21, 0.22);
-    }
-
-    .rhythm-tapping__pad.is-active {
-      transform: translateY(1px) scale(0.995);
-      border-style: solid;
-      border-color: rgba(250, 204, 21, 0.8);
-      background: rgba(250, 204, 21, 0.12);
-    }
-
-    .rhythm-tapping--contrast .rhythm-tapping__pad {
-      background: rgba(15, 23, 42, 0.6);
-      border-color: rgba(148, 163, 184, 0.35);
-    }
-
-    .rhythm-tapping__hud {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 0.75rem;
-      width: 100%;
-    }
-
-    .rhythm-tapping__hud-item {
-      border-radius: 14px;
-      padding: 0.75rem 1rem;
-      background: rgba(255, 255, 255, 0.65);
-      border: 1px solid rgba(17, 24, 39, 0.08);
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-
-    .rhythm-tapping--contrast .rhythm-tapping__hud-item {
-      background: rgba(15, 23, 42, 0.55);
-      border-color: rgba(148, 163, 184, 0.35);
-    }
-
-    .rhythm-tapping__hud-label {
-      font-size: 0.75rem;
-      opacity: 0.75;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-
-    .rhythm-tapping__hud-value {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .rhythm-tapping__controls {
-      display: grid;
-      gap: 1rem;
-      border-radius: 18px;
-      padding: 1.25rem;
-      background: rgba(255, 255, 255, 0.78);
-      border: 1px solid rgba(17, 24, 39, 0.05);
-    }
-
-    .rhythm-tapping--contrast .rhythm-tapping__controls {
-      background: rgba(15, 23, 42, 0.65);
-      border-color: rgba(148, 163, 184, 0.28);
-    }
-
-    .rhythm-tapping__preset-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .rhythm-tapping__chip {
-      border-radius: 999px;
-      padding: 0.35rem 0.9rem;
-      border: 1px solid rgba(17, 24, 39, 0.12);
-      background: rgba(255, 255, 255, 0.6);
-      color: inherit;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: border-color 140ms ease, background 160ms ease, color 160ms ease, transform 120ms ease;
-    }
-
-    .rhythm-tapping__chip.is-active {
-      border-color: rgba(250, 204, 21, 0.8);
-      background: rgba(250, 204, 21, 0.25);
-      color: #7c5800;
-    }
-
-    .rhythm-tapping--contrast .rhythm-tapping__chip {
-      background: rgba(15, 23, 42, 0.5);
-      border-color: rgba(148, 163, 184, 0.35);
-    }
-
-    .rhythm-tapping--contrast .rhythm-tapping__chip.is-active {
-      color: #facc15;
-      background: rgba(250, 204, 21, 0.22);
-    }
-
-    .rhythm-tapping__field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-
-    .rhythm-tapping__field label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      opacity: 0.82;
-    }
-
-    .rhythm-tapping__field input,
-    .rhythm-tapping__field select {
-      border-radius: 10px;
-      border: 1px solid rgba(17, 24, 39, 0.12);
-      padding: 0.55rem 0.75rem;
-      background: rgba(255, 255, 255, 0.76);
-      color: inherit;
-      font: inherit;
-    }
-
-    .rhythm-tapping--contrast .rhythm-tapping__field input,
-    .rhythm-tapping--contrast .rhythm-tapping__field select {
-      background: rgba(15, 23, 42, 0.6);
-      border-color: rgba(148, 163, 184, 0.35);
-    }
-
-    .rhythm-tapping__toggles {
-      display: grid;
-      gap: 0.5rem;
-    }
-
-    .rhythm-tapping__toggle {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-    }
-
-    .rhythm-tapping__actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-
-    .rhythm-tapping__actions button {
-      border-radius: 999px;
-      border: 1px solid rgba(17, 24, 39, 0.12);
-      padding: 0.55rem 1.1rem;
-      background: rgba(255, 255, 255, 0.82);
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 120ms ease, box-shadow 160ms ease, border-color 160ms ease;
-    }
-
-    .rhythm-tapping__actions button:hover:not(:disabled) {
-      border-color: rgba(250, 204, 21, 0.8);
-      box-shadow: 0 12px 32px rgba(250, 204, 21, 0.18);
-    }
-
-    .rhythm-tapping__actions button:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-
-    .rhythm-tapping--contrast .rhythm-tapping__actions button {
-      background: rgba(15, 23, 42, 0.6);
-      border-color: rgba(148, 163, 184, 0.28);
-    }
-
-    .rhythm-tapping__status {
-      margin: 0;
-      font-size: 0.95rem;
-      line-height: 1.5;
-      opacity: 0.9;
-    }
-
-    .rhythm-tapping__summary {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .rhythm-tapping__summary-card {
-      border-radius: 20px;
-      padding: 1.25rem;
-      background: rgba(255, 255, 255, 0.78);
-      border: 1px solid rgba(17, 24, 39, 0.08);
-      display: grid;
-      gap: 0.85rem;
-    }
-
-    .rhythm-tapping--contrast .rhythm-tapping__summary-card {
-      background: rgba(15, 23, 42, 0.6);
-      border-color: rgba(148, 163, 184, 0.32);
-    }
-
-    .rhythm-tapping__summary-title {
-      margin: 0;
-      font-size: 1rem;
-      font-weight: 700;
-    }
-
-    .rhythm-tapping__metrics {
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .rhythm-tapping__metric {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 0.75rem;
-      font-size: 0.95rem;
-    }
-
-    .rhythm-tapping__metric-label {
-      opacity: 0.72;
-      font-weight: 500;
-    }
-
-    .rhythm-tapping__metric-value {
-      font-weight: 600;
-      font-size: 1.05rem;
-    }
-  `;
-
-  document.head.appendChild(style);
+  // Styles moved to games.css - no inline styles needed
 };
 
 const formatMs = (value: number | null): string => {
@@ -718,6 +395,11 @@ const rhythmTappingGame: GameModule = (() => {
     container.classList.toggle('rhythm-tapping--visual-disabled', !visualEnabled);
     container.classList.toggle('rhythm-tapping--audio-disabled', !audioEnabled);
     container.classList.toggle('rhythm-tapping--contrast', highContrastEnabled);
+
+    // Update glass components for high contrast mode
+    document.querySelectorAll('.rhythm-tapping .glass-control, .rhythm-tapping .glass-tile, .rhythm-tapping .glass-badge').forEach((element) => {
+      element.setAttribute('data-high-contrast', highContrastEnabled ? 'true' : 'false');
+    });
   };
 
   const refreshPresetButtons = () => {
@@ -1156,7 +838,7 @@ const rhythmTappingGame: GameModule = (() => {
     bpmPresets.forEach((preset) => {
       const button = document.createElement('button');
       button.type = 'button';
-      button.className = 'rhythm-tapping__chip';
+      button.className = 'glass-control rhythm-tapping__chip';
       button.textContent = preset.label;
       button.title = preset.description;
       const onClick = () => handlePresetSelect(preset);
@@ -1274,6 +956,7 @@ const rhythmTappingGame: GameModule = (() => {
 
     startButton = document.createElement('button');
     startButton.type = 'button';
+    startButton.className = 'glass-control';
     startButton.textContent = '开始节奏练习';
     const handleStartClick = () => startBlock('play');
     startButton.addEventListener('click', handleStartClick);
@@ -1281,6 +964,7 @@ const rhythmTappingGame: GameModule = (() => {
 
     stopButton = document.createElement('button');
     stopButton.type = 'button';
+    stopButton.className = 'glass-control';
     stopButton.textContent = '停止';
     stopButton.disabled = true;
     const handleStopClick = () => stopBlock(true);
@@ -1289,6 +973,7 @@ const rhythmTappingGame: GameModule = (() => {
 
     calibrateButton = document.createElement('button');
     calibrateButton.type = 'button';
+    calibrateButton.className = 'glass-control';
     calibrateButton.textContent = '快速延迟校准';
     const handleCalibrateClick = () => startBlock('calibration');
     calibrateButton.addEventListener('click', handleCalibrateClick);
@@ -1298,6 +983,7 @@ const rhythmTappingGame: GameModule = (() => {
 
     resetButton = document.createElement('button');
     resetButton.type = 'button';
+    resetButton.className = 'glass-control';
     resetButton.textContent = '清除会话统计';
     resetButton.addEventListener('click', resetSession);
     cleanupTasks.push(() => resetButton?.removeEventListener('click', resetSession));
