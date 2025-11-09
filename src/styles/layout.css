@@ -1,9 +1,107 @@
 .app-shell {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
   min-height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  background: radial-gradient(circle at top, color-mix(in srgb, var(--color-primary) 12%, transparent), transparent 60%),
-    var(--color-background);
+  background-color: var(--color-background);
+  background: color-mix(in srgb, var(--color-background) 88%, var(--color-surface) 12%);
+}
+
+.app-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background-color: var(--color-background);
+  background-image: radial-gradient(120% 120% at 50% -10%, color-mix(in srgb, var(--color-surface) 18%, transparent) 0%, transparent 70%);
+  transition: opacity var(--duration-slow) var(--ease-smooth);
+}
+
+.app-background__panels,
+.app-background__glow,
+.app-background__texture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.app-background__panels {
+  background-image:
+    linear-gradient(120deg, color-mix(in srgb, var(--color-surface-subtle) 55%, transparent) 12%, transparent 65%),
+    linear-gradient(200deg, color-mix(in srgb, var(--color-surface) 28%, transparent) 20%, transparent 80%);
+  mix-blend-mode: soft-light;
+  opacity: calc(var(--glass-opacity-medium) - 0.35);
+  -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.92), rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0));
+}
+
+.app-background__glow {
+  inset: -25%;
+  background-image:
+    radial-gradient(60% 60% at 18% 26%, color-mix(in srgb, var(--accent-from) 34%, transparent) 0%, transparent 68%),
+    radial-gradient(55% 55% at 78% 18%, color-mix(in srgb, var(--accent-to) 30%, transparent) 0%, transparent 70%),
+    radial-gradient(70% 65% at 48% 82%, color-mix(in srgb, var(--color-primary-soft) 24%, transparent) 0%, transparent 72%);
+  opacity: calc(var(--glass-opacity-heavy) - 0.25);
+  transform: translate3d(0, 0, 0);
+}
+
+.app-background__texture {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23noise)' opacity='0.45'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+  opacity: calc(var(--glass-opacity-light) - 0.5);
+  mix-blend-mode: overlay;
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .app-background__panels {
+    backdrop-filter: blur(var(--blur-lg));
+  }
+}
+
+@supports (filter: blur(1px)) {
+  .app-background__glow {
+    filter: blur(var(--blur-2xl)) saturate(120%);
+  }
+}
+
+@supports not (filter: blur(1px)) {
+  .app-background__glow {
+    opacity: calc(var(--glass-opacity-light) - 0.3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-background {
+    transition: none;
+  }
+
+  .app-background__glow {
+    filter: none !important;
+    opacity: calc(var(--glass-opacity-light) - 0.25);
+  }
+}
+
+[data-theme='dark'] .app-background {
+  background-color: var(--color-background);
+  background-image: radial-gradient(130% 140% at 50% -20%, color-mix(in srgb, var(--color-surface-subtle) 35%, transparent) 0%, transparent 70%);
+}
+
+[data-theme='dark'] .app-background__panels {
+  background-image:
+    linear-gradient(120deg, color-mix(in srgb, var(--color-surface) 30%, transparent) 25%, transparent 70%),
+    linear-gradient(210deg, color-mix(in srgb, var(--color-surface-subtle) 45%, transparent) 20%, transparent 75%);
+  mix-blend-mode: screen;
+  opacity: calc(var(--glass-opacity-medium) - 0.4);
+}
+
+[data-theme='dark'] .app-background__glow {
+  background-image:
+    radial-gradient(60% 60% at 20% 24%, color-mix(in srgb, var(--accent-from) 42%, transparent) 0%, transparent 68%),
+    radial-gradient(55% 55% at 78% 22%, color-mix(in srgb, var(--accent-to) 38%, transparent) 0%, transparent 70%),
+    radial-gradient(70% 65% at 45% 82%, color-mix(in srgb, var(--color-primary-soft) 32%, transparent) 0%, transparent 72%);
 }
 
 .app-header {
