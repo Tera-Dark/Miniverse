@@ -27,17 +27,20 @@ export const createButton = (options: ButtonOptions): ButtonElement => {
 
   if (leadingIcon) {
     const icon = document.createElement('span');
+    icon.className = 'button__icon button__icon--leading';
     icon.setAttribute('aria-hidden', 'true');
     icon.textContent = leadingIcon;
     parts.push(icon);
   }
 
   const text = document.createElement('span');
+  text.className = 'button__text';
   text.textContent = label;
   parts.push(text);
 
   if (trailingIcon) {
     const icon = document.createElement('span');
+    icon.className = 'button__icon button__icon--trailing';
     icon.setAttribute('aria-hidden', 'true');
     icon.textContent = trailingIcon;
     parts.push(icon);

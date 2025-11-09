@@ -148,10 +148,13 @@
   gap: var(--space-md);
   padding: var(--space-md);
   border-radius: var(--radius-lg);
-  background: color-mix(in srgb, var(--color-surface) 95%, transparent);
-  box-shadow: var(--shadow-subtle);
-  transition: transform var(--transition-base), box-shadow var(--transition-base),
-    background var(--transition-base);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-medium), transparent);
+  backdrop-filter: blur(var(--blur-lg));
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--glass-border);
+  transition: transform var(--duration-fast) var(--ease-out), 
+    box-shadow var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out);
 }
 
 .game-card::after {
@@ -161,17 +164,17 @@
   border-radius: inherit;
   opacity: 0;
   pointer-events: none;
-  background: color-mix(in srgb, var(--game-accent, var(--color-primary)) 10%, transparent);
-  transition: opacity var(--transition-base);
+  background: var(--gradient-accent);
+  transition: opacity var(--duration-fast) var(--ease-out);
 }
 
 .game-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-soft);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
 }
 
 .game-card:hover::after {
-  opacity: 1;
+  opacity: 0.06;
 }
 
 .game-card:focus-visible {
@@ -335,17 +338,35 @@
 }
 
 .game-sheet__panel {
-  background: var(--color-surface);
+  background: color-mix(in srgb, var(--color-surface) var(--glass-opacity-heavy), transparent);
+  backdrop-filter: blur(var(--blur-xl));
   width: 100%;
   max-width: 520px;
   margin: 0 auto;
   padding: var(--space-xl) var(--space-lg) var(--space-lg);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--shadow-2xl);
+  border: 1px solid var(--glass-border);
+  border-bottom: none;
   display: grid;
   gap: var(--space-md);
   max-height: calc(100vh - var(--space-lg));
   overflow-y: auto;
+  position: relative;
+}
+
+.game-sheet__panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--color-surface) var(--glass-opacity-heavy), transparent),
+    color-mix(in srgb, var(--color-surface) var(--glass-opacity-medium), transparent)
+  );
+  pointer-events: none;
+  z-index: -1;
 }
 
 .game-sheet__header {
