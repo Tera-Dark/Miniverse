@@ -7,6 +7,7 @@ import './theme.css';
 import { createButton } from './components/Button';
 import { createCard } from './components/Card';
 import { createFooter } from './components/Footer';
+import { createAmbientBackground } from './components/AmbientBackground';
 import { createHeader } from './components/Header';
 import { createThemeToggle, type ThemeMode } from './components/ThemeToggle';
 import {
@@ -113,12 +114,18 @@ const initializeShell = () => {
     throw new Error('App container not found');
   }
 
+  root.querySelectorAll('.app-shell, .app-background').forEach((node) => {
+    node.remove();
+  });
+
   const themeController = createThemeController();
   const themeToggle = createThemeToggle({
     initial: themeController.getTheme(),
     onToggle: () => themeController.toggle()
   });
   themeController.subscribe((mode) => themeToggle.setTheme(mode));
+
+  const background = createAmbientBackground();
 
   const header = createHeader({
     themeToggle: themeToggle.element
@@ -133,7 +140,8 @@ const initializeShell = () => {
   const shell = document.createElement('div');
   shell.className = 'app-shell';
   shell.append(header.element, main, footer);
-  root.appendChild(shell);
+
+  root.append(background.element, shell);
 
   return {
     main,
