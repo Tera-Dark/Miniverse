@@ -39,18 +39,20 @@ export const createHeader = (options: HeaderOptions): HeaderInstance => {
   bar.className = 'app-header__bar';
 
   const branding = document.createElement('a');
-  branding.className = 'app-header__title';
+  branding.className = 'app-header__branding';
   branding.href = '#/';
-  branding.textContent = '迷你宇宙';
+  branding.textContent = 'miniverse';
+  branding.setAttribute('aria-label', 'miniverse home');
 
   const nav = document.createElement('nav');
-  nav.className = 'app-nav';
+  nav.className = 'app-header__nav';
+  nav.setAttribute('aria-label', 'Main navigation');
 
   const anchors: Array<{ node: HTMLAnchorElement; path: string }> = [];
 
   NAV_ITEMS.forEach((link) => {
     const anchor = document.createElement('a');
-    anchor.className = 'app-nav__link';
+    anchor.className = 'app-header__nav-link';
     const normalized = normalizePath(link.path);
     anchor.href = `#${normalized}`;
     anchor.textContent = link.label;

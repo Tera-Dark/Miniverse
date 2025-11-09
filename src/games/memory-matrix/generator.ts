@@ -1,5 +1,5 @@
-import { type Rng, createSeededRng } from '../cancellation-task/rng';
 import type { MemoryCellPosition, MemoryMatrixConfig, MemoryPattern } from './types';
+import { type Rng, createSeededRng } from '../cancellation-task/rng';
 
 export interface GeneratePatternOptions extends MemoryMatrixConfig {
   seed?: string | number;

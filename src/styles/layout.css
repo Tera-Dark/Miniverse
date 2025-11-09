@@ -9,10 +9,10 @@
 .app-header {
   position: sticky;
   top: 0;
-  padding: 1.25rem clamp(1.5rem, 4vw, 4rem);
-  backdrop-filter: blur(18px);
-  background: color-mix(in srgb, var(--color-background) 82%, transparent);
-  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-lg) clamp(var(--space-lg), 4vw, var(--space-3xl));
+  backdrop-filter: blur(var(--blur-lg));
+  background: color-mix(in srgb, var(--color-surface) 60%, transparent);
+  border-bottom: 1px solid var(--glass-border);
   z-index: 10;
 }
 
@@ -20,7 +20,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: var(--space-lg);
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -28,37 +28,49 @@
 .app-header__actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-sm);
+  flex-shrink: 0;
 }
 
-.app-header__title {
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  font-size: 1.1rem;
+.app-header__branding {
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--transition-base);
+  white-space: nowrap;
 }
 
-.app-nav {
+.app-header__branding:hover {
+  color: var(--color-primary);
+}
+
+.app-header__nav {
   display: flex;
-  gap: 0.75rem;
+  gap: var(--space-sm);
   align-items: center;
+  flex: 1;
+  margin: 0 var(--space-lg);
 }
 
-.app-nav__link {
-  padding: 0.35rem 0.85rem;
+.app-header__nav-link {
+  padding: var(--space-2xs) var(--space-sm);
   border-radius: var(--radius-sm);
-  transition: background var(--transition-base), box-shadow var(--transition-base), color var(--transition-base);
+  transition: background var(--transition-base), color var(--transition-base);
   color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: var(--font-size-sm);
 }
 
-.app-nav__link:hover {
-  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
+.app-header__nav-link:hover {
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
   color: var(--color-text);
 }
 
-.app-nav__link.is-active {
-  background: color-mix(in srgb, var(--color-primary) 28%, transparent);
-  color: var(--color-text);
-  box-shadow: inset 0 1px 0 var(--glass-border);
+.app-header__nav-link.is-active {
+  color: var(--color-primary);
+  font-weight: var(--font-weight-medium);
 }
 
 .app-main {
@@ -109,25 +121,32 @@
 }
 
 .app-footer {
-  padding: 2rem clamp(1.5rem, 4vw, 4rem) 3rem;
+  padding: var(--space-2xl) clamp(var(--space-lg), 4vw, var(--space-3xl));
   margin-top: auto;
-  background: color-mix(in srgb, var(--color-surface) 60%, transparent);
-  border-top: 1px solid var(--color-border);
+  backdrop-filter: blur(var(--blur-sm));
+  background: color-mix(in srgb, var(--color-surface) 40%, transparent);
+  border-top: 1px solid var(--glass-border);
 }
 
 .app-footer__inner {
   max-width: 1200px;
   margin: 0 auto;
   color: var(--color-text-muted);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   display: grid;
-  gap: 0.75rem;
+  gap: var(--space-sm);
 }
 
 .app-footer__link {
-  color: inherit;
+  color: var(--color-primary);
   text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, var(--color-primary) 55%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color var(--transition-base);
+}
+
+.app-footer__link:hover {
+  color: var(--color-primary-soft);
 }
 
 .section-title {

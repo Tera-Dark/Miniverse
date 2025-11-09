@@ -16,8 +16,8 @@ import {
   isGameId,
   listGames
 } from './games';
-import { mountGamesHub } from './games/hub';
 import type { GameDefinition, RegisteredGameMeta } from './games';
+import { mountGamesHub } from './games/hub';
 import type { GameMeta, GameModule } from './games/types';
 import { HashRouter } from './router';
 

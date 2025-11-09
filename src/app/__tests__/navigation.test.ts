@@ -51,12 +51,14 @@ describe('navigation configuration', () => {
       await import('@/main');
 
       const navLinks = Array.from(
-        document.querySelectorAll<HTMLAnchorElement>('.app-nav__link')
+        document.querySelectorAll<HTMLAnchorElement>('.app-header__nav-link')
       );
       const labels = navLinks.map((link) => link.textContent ?? '');
 
       expect(navLinks).toHaveLength(NAV_ITEMS.length);
+      expect(navLinks).toHaveLength(1);
       expect(labels).toEqual(NAV_ITEMS.map((item) => item.label));
+      expect(labels[0]).toBe('Games');
       mockGames.forEach((game) => {
         expect(labels).not.toContain(game.title);
       });
