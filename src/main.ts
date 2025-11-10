@@ -4,10 +4,10 @@ import './styles/layout.css';
 import './styles/games.css';
 import './theme.css';
 
+import { createAmbientBackground } from './components/AmbientBackground';
 import { createButton } from './components/Button';
 import { createCard } from './components/Card';
 import { createFooter } from './components/Footer';
-import { createAmbientBackground } from './components/AmbientBackground';
 import { createHeader } from './components/Header';
 import { createThemeToggle, type ThemeMode } from './components/ThemeToggle';
 import {
